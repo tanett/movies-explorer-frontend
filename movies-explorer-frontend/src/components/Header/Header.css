@@ -19,11 +19,12 @@
     background-size: cover;
     margin-right: 44px;
 }
-.header__link-wrap {
+.header__linkWrap {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
 }
+
 .header__nav {
 display: inline-block;
     line-height: 38px;
@@ -37,7 +38,13 @@ display: inline-block;
     font-weight: 400;
     margin-right: 30px;
 }
-.header__link_signin {
+.header__link_active {
+    font-weight: 500;
+}
+.header__link_hidden {
+    display: none;
+}
+.header__linkSignin {
     font-size: 12px;
     line-height: 16px;
     font-weight: 500;
@@ -49,4 +56,98 @@ display: inline-block;
     background: #3DDC84;
     border-radius: 3px;
     color: black;
+}
+
+.header__btnAcc {
+    box-sizing: border-box;
+    border: 2px solid rgba(170, 170, 170, 0.2);
+    border-radius: 50px;
+    padding: 6px 9px;
+    width: 100px;
+}
+.header__btnAccText {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+}
+.header__btnAccText::before {
+    content: "";
+    display:inline-block ;
+    width: 12px;
+    height: 14px;
+    background-image: url("../../images/icon__acc.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 7px;
+}
+/*for mobile*/
+
+.header__mobMenu{
+    display: none;
+    box-sizing: border-box;
+    background-image: url("../../images/icon__gamburger.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+
+}
+
+@media screen and (max-width: 768px) {
+    .header__mobMenu {
+        display: block;
+
+        position: absolute;
+        right: 30px;
+    }
+
+    .header__mobMenu_open {
+        display: none;
+    }
+
+    .header__linkWrap {
+        visibility: hidden;
+        flex-direction: column;
+        align-items: center;
+        background-color: black;
+
+    }
+
+    .header__linkWrap_mobileMenuOpen {
+        visibility: visible;
+        padding: 90px ;
+    }
+
+    .header__wrap {
+        padding: 15px 30px;
+    }
+
+    .header__nav_mobileMenuOpen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 38px;
+    }
+
+    .header__link {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 1.2;
+        margin-top: 28px;
+    }
+
+    .header__link_active {
+        text-decoration: solid underline white 2px;
+    }
+
+    .header__linkWrap_mobileMenuOpen {
+        width: 520px;
+        height: 100vh;
+        position: absolute;
+        right: 0;
+    }
 }

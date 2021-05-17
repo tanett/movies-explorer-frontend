@@ -1,8 +1,9 @@
 import {
-  Switch, Route, useParams, Link
+  Switch, Route, useParams, Link, NavLink
 } from "react-router-dom";
 import logoPath from '../../images/logo.svg';
 import React from "react";
+import './Header.css';
 
 function Header(props) {
   const [mobMenu, setMobMenu] = React.useState(false);
@@ -21,26 +22,30 @@ function Header(props) {
           <Link to='/' className='header__logo' />
           <Switch>
             <Route exact path={'/movies' || '/saved-movies' || '/profile'}>
-              <div className='header__link-wrap'>
-                <nav className='header__nav'>
-                  <Link to='/movies' className='header__link'>
+              <button className={`${mobMenu ? "header__mobMenu_open" : "header__mobMenu"}`} onClick={handleClicMobMenu}></button>
+              <div className={`header__linkWrap ${mobMenu? "header__linkWrap_mobileMenuOpen":""}`}>
+                <nav className={`header__nav ${mobMenu? "header__nav_mobileMenuOpen":""}`}>
+                  <NavLink exact to='/' className={`${mobMenu? "header__link": "header__link_hidden"}`} activeClassName='header__link_active'>
+                    Главная
+                  </NavLink>
+                  <NavLink exact to='/movies' className='header__link' activeClassName='header__link_active'>
                     Фильмы
-                  </Link>
-                  <Link to='/saved-movies' className='header__link'>
+                  </NavLink>
+                  <NavLink to='/saved-movies' className='header__link' activeClassName='header__link_active'>
                     Сохраненные фильмы
-                  </Link>
+                  </NavLink>
                 </nav>
-                <Link to='/profile' className='header__link'>
-                  Аккаунт
+                <Link to='/profile' className='header__btnAcc'>
+                  <span className='header__btnAccText'>Аккаунт</span>
                 </Link>
               </div>
             </Route>
             <Route path='/'>
               <nav className='header__nav '>
-                <Link to='/signup' className='header__link header__link_signin'>
+                <Link to='/signup' className='header__link header__linkSignin'>
                   Регистрация
                 </Link>
-                <Link to='/signin' className='header__link header__link_signin header__btn'>
+                <Link to='/signin' className='header__link header__linkSignin header__btn'>
                   Войти
                 </Link>
               </nav>
