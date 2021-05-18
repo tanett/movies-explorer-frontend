@@ -172,7 +172,8 @@ display: inline-block;
     }
 
     .header__link_active {
-        text-decoration: solid underline white 2px;
+        text-decoration: solid underline white ;
+        text-decoration-thickness: 2px;
     }
 
 
