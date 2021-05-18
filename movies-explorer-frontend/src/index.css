@@ -23,6 +23,7 @@ body {
   transition: opacity 1s;
 }
 .page__wrap {
+  box-sizing: border-box;
   max-width: 1280px;
   min-width: 320px;
 }
