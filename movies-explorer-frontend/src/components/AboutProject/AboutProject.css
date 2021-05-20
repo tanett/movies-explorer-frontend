@@ -1,0 +1,132 @@
+.aboutProject {
+    background-color: #202020;
+}
+
+.aboutProject__wrap {
+    padding: 110px 70px;
+
+}
+
+.aboutProject__articleWrap {
+    display: flex;
+    margin-bottom: 110px;
+}
+
+.aboutProject__card {
+
+}
+.aboutProject__card:first-of-type {
+margin-right: 40px;
+}
+.aboutProject__cardTitle {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    margin: 0 0 26px 0;
+}
+
+.aboutProject__cardText {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+}
+
+.aboutProject__timeline {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 1fr ;
+}
+.aboutProject__timelineZone {
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+
+    padding: 9px 14px;
+
+}
+.aboutProject__timelineZone_green {
+    color: #000000;
+    background: #3DDC84;
+}
+.aboutProject__timelineZone_grey {
+    color: #FFFFFF;
+    background: #303030;
+}
+.aboutProject__timelineZone_timelineName {
+    color: #8B8B8B;
+}
+
+
+@media screen and (max-width: 848px){
+    .aboutProject__wrap {
+        padding: 90px 50px;
+    }
+
+    .aboutProject__articleWrap {
+        margin-bottom: 93px;
+    }
+
+    .aboutProject__card {
+
+    }
+    .aboutProject__card:first-of-type {
+        margin-right: 30px;
+    }
+    .aboutProject__cardTitle {
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.04em;
+        margin: 0 0 22px 0;
+    }
+
+    .aboutProject__cardText {
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
+
+@media screen and (max-width: 550px){
+    .aboutProject__wrap {
+        padding: 70px 18px;
+    }
+    .aboutProject__title {
+        margin-bottom: 60px;
+    }
+
+    .aboutProject__articleWrap {
+        flex-wrap: wrap;
+        margin-bottom: 60px;
+    }
+
+    .aboutProject__card {
+
+    }
+    .aboutProject__card:first-of-type {
+
+        margin-bottom: 56px;
+    }
+    .aboutProject__cardTitle {
+
+        font-size: 18px;
+        line-height: 22px;
+
+        margin: 0 0 16px 0;
+    }
+
+    .aboutProject__cardText {
+        font-size: 11px;
+        line-height: 16px;
+    }
+    .aboutProject__timelineZone {
+        font-size: 11px;
+        line-height: 13px;
+
+        padding: 9px 0;
+    }
+}
+
