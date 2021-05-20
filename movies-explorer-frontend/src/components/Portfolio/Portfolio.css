@@ -44,3 +44,35 @@
     background-repeat: no-repeat;
     background-position: right center;
 }
+
+@media screen and (max-width: 800px) {
+    .portfolio__wrap {
+        padding: 0  50px 90px;
+    }
+
+    .portfolio__title {
+        margin-bottom: 31px;
+    }
+
+    .portfolio__link {
+        font-size: 28px;
+        line-height: 50px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .portfolio__wrap {
+        padding: 0  14px 70px;
+    }
+
+    .portfolio__title {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 21px;
+    }
+
+    .portfolio__link {
+        font-size: 18px;
+        line-height: 28px;
+        background-size: 12px 28px;
+    }
+}

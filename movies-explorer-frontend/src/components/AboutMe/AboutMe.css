@@ -12,13 +12,14 @@
 
 .aboutMe__card {
     display: flex;
-justify-content: space-between;
+    justify-content: space-between;
 }
 
 .aboutMe__wrapCard {
     margin-right: 65px;
     max-width: 600px;
 }
+
 .aboutMe__cardTitle {
     font-weight: normal;
     font-size: 50px;
@@ -50,6 +51,7 @@ justify-content: space-between;
     list-style: none;
 
 }
+
 .aboutMe__socialLinksItem {
     display: inline-block;
     text-decoration: none;
@@ -61,7 +63,7 @@ justify-content: space-between;
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
-padding-bottom: 2px;
+    padding-bottom: 2px;
     color: #FFFFFF;
     cursor: pointer;
 }
@@ -76,11 +78,109 @@ padding-bottom: 2px;
 }
 
 
-
 .aboutMe__photo {
     border-radius: 10px;
-    width: 270px;
+    max-width: 270px;
     height: auto;
     object-fit: cover;
 
+}
+
+@media screen and (max-width: 868px) {
+    .aboutMe__wrap {
+        padding: 90px 50px;
+    }
+
+    .aboutMe__wrapCard {
+        margin-right: 49px;
+        max-width: 364px;
+    }
+
+    .aboutMe__cardTitle {
+        font-size: 40px;
+        line-height: 40px;
+        margin-bottom: 16px;
+    }
+
+    .aboutMe__cardSubtitle {
+        font-size: 12px;
+        line-height: 18px;
+        margin-bottom: 20px;
+    }
+
+    .aboutMe__cardText {
+        font-size: 12px;
+        line-height: 18px;
+        margin-bottom: 87px;
+    }
+
+    .aboutMe__photo {
+        max-width: 255px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .aboutMe__title {
+        margin-bottom: 60px;
+    }
+    .aboutMe__wrap {
+        padding: 70px 14px;
+    }
+
+    .aboutMe__wrapCard {
+        margin-right: 49px;
+        max-width: 364px;
+    }
+
+    .aboutMe__cardTitle {
+        font-size: 30px;
+        line-height: 36px;
+        margin-bottom: 20px;
+    }
+
+    .aboutMe__cardSubtitle {
+        font-size: 11px;
+        line-height: 16px;
+
+    }
+
+    .aboutMe__cardText {
+        font-size: 11px;
+        line-height: 16px;
+        margin-bottom: 40px;
+    }
+
+    .aboutMe__photo {
+        max-width: 255px;
+    }
+}
+@media screen and (max-width: 550px) {
+
+    .aboutMe__wrapCard {
+        margin-right: 0px;
+        max-width: 292px;
+    }
+
+    .aboutMe__card {
+       flex-direction: column-reverse;
+
+        align-items: center;
+    }
+
+    .aboutMe__cardSubtitle {
+        font-size: 11px;
+        line-height: 16px;
+
+    }
+
+    .aboutMe__cardText {
+        font-size: 11px;
+        line-height: 16px;
+        margin-bottom: 40px;
+    }
+
+    .aboutMe__photo {
+        max-width: 292px;
+        margin-bottom: 40px;
+    }
 }
