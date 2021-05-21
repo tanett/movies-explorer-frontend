@@ -98,6 +98,14 @@
         margin-bottom: 102px;
     }
 }
+@media screen and (max-width: 868px) {
+    .promo {
+        padding-top: 70px;
+    }
+    .promo__wrap{
+        padding: 140px 46px 74px;
+    }
+}
 
 @media screen and (max-width: 520px) {
     .promo__wrap{

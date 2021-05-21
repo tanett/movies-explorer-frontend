@@ -58,7 +58,7 @@
 }
 
 
-@media screen and (max-width: 848px) {
+@media screen and (max-width: 868px) {
     .techs__wrap {
         padding: 90px 50px;
 
@@ -84,7 +84,7 @@
     }
 }
 
-@media screen and (max-width: 400px){
+@media screen and (max-width: 520px){
     .techs__wrap {
         padding: 70px 18px;
     }

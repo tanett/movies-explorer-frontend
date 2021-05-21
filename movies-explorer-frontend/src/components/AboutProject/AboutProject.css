@@ -61,7 +61,7 @@ margin-right: 40px;
 }
 
 
-@media screen and (max-width: 848px){
+@media screen and (max-width: 868px){
     .aboutProject__wrap {
         padding: 90px 50px;
     }
