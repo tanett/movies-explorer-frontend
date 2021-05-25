@@ -22,7 +22,7 @@ function Main(props) {
             <Techs />
             <AboutMe />
             <Portfolio/>
-            <Footer />
+
           </Route>
           <Route  path = "/movies">
 
