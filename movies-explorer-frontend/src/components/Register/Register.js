@@ -38,7 +38,7 @@ function Register() {
               <button className={'register__formSubmit'} type={'submit'}>Зарегистрироваться</button>
               <p className={'register__ask'}>
                 Уже зарегистрированы?
-                <Link to={'/login'} className={'register__askLink'}>Войти</Link>
+                <Link to={'/signin'} className={'register__askLink'}>Войти</Link>
               </p>
             </div>
           </form>

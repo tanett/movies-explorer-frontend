@@ -35,7 +35,7 @@ function Login() {
               <button className={'login__formSubmit'} type={'submit'}>Войти</button>
               <p className={'login__ask'}>
                 Ещё не зарегистрированы?
-                <Link to={'/register'} className={'login__askLink'}>Регистрация</Link>
+                <Link to={'/signup'} className={'login__askLink'}>Регистрация</Link>
               </p>
             </div>
           </form>

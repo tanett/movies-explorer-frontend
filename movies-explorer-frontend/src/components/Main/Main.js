@@ -30,9 +30,7 @@ function Main(props) {
           <Route  path = "/saved-movies">
 
           </Route>
-          <Route  path = "/profile">
 
-          </Route>
         </Switch>
 
       </main>
