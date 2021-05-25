@@ -11,7 +11,8 @@ import {
   Switch, Route, useParams, Link, NavLink
 } from "react-router-dom";
 import Login from "../Login/Login";
-// import Register from "../Register/Register";
+import Register from "../Register/Register";
+
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path='/login' >
           <Login />
+        </Route>
+        <Route path='/register' >
+          <Register />
         </Route>
         <Route path='*' >
           <NotFoundPage />

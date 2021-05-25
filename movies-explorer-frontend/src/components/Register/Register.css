@@ -1,4 +1,4 @@
-.login {
+.register {
     width: 100%;
     background: #202020;
     position: absolute;
@@ -9,7 +9,7 @@
 
 }
 
-.login__wrap {
+.register__wrap {
     box-sizing: border-box;
     margin: 0 auto;
     max-width: 396px;
@@ -18,16 +18,16 @@
     flex-direction: column;
 }
 
-.login__logoLink {
+.register__logoLink {
     align-self: flex-start;
 }
 
-.login__logo {
+.register__logo {
     width: 38px;
     height: 38px;
 }
 
-.login__title {
+.register__title {
     font-weight: 500;
     font-size: 24px;
     line-height: 29px;
@@ -35,7 +35,7 @@
     margin: 40px auto 40px 0;
 }
 
-.login__form {
+.register__form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -43,14 +43,14 @@
 
 }
 
-.login__inputWrap {
+.register__inputWrap {
     display: flex;
     flex-direction: column;
     padding-bottom: 42px;
 
 }
 
-.login__inputLabel {
+.register__inputLabel {
     font-weight: normal;
     font-size: 10px;
     line-height: 12px;
@@ -58,7 +58,7 @@
     padding-bottom: 5px;
 }
 
-.login__formInput {
+.register__formInput {
     border: none;
     font-weight: 500;
     font-size: 14px;
@@ -70,15 +70,15 @@
     margin-bottom: 6px;
 }
 
-.login__formInput:invalid {
+.register__formInput:invalid {
     color: #EE3465;
 }
 
-.login__errorInput {
+.register__errorInput {
     visibility: hidden;
 }
 
-.login__errorInput_activ {
+.register__errorInput_activ {
     visibility: visible;
     font-weight: normal;
     font-size: 10px;
@@ -87,7 +87,7 @@
     margin-bottom: 5px;
 }
 
-.login__formSubmit {
+.register__formSubmit {
     width: 100%;
     background: #4285F4;
     border-radius: 3px;
@@ -103,11 +103,11 @@
     transition: all 3ms;
 }
 
-.login__formSubmit:hover, .login__formSubmit:focus {
+.register__formSubmit:hover, .register__formSubmit:focus {
     box-shadow: 0px 0px 10px 0px rgb(236 249 247) inset;
 }
 
-.login__formSubmit:active {
+.register__formSubmit:active {
     transform: scale(0.95);
 }
 
@@ -115,7 +115,7 @@
 
 }
 
-.login__ask {
+.register__ask {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
@@ -124,7 +124,7 @@
     margin: 0 auto;
 }
 
-.login__askLink {
+.register__askLink {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
@@ -135,11 +135,11 @@
 }
 
 @media screen and (max-width: 520px) {
-    .login {
+    .register {
         padding: 70px 0 30px;
     }
 
-    .login__wrap {
+    .register__wrap {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -149,17 +149,17 @@
 
     }
 
-    .login__logo {
+    .register__logo {
         margin: 0 auto;
     }
 
-    .login__title {
+    .register__title {
         font-size: 24px;
         line-height: 29px;
         margin: 50px auto 80px;
     }
 
-    .login__form {
+    .register__form {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -167,17 +167,17 @@
 
     }
 
-    .login__inputWrap {
+    .register__inputWrap {
 
 
     }
 
-    .login__ask {
+    .register__ask {
         font-size: 12px;
         line-height: 15px;
     }
 
-    .login__askLink {
+    .register__askLink {
         font-size: 12px;
         line-height: 15px;
     }
