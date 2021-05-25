@@ -1,0 +1,105 @@
+.login {
+    width: 100%;
+    background: #202020;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    padding: 70px 20px;
+
+}
+
+.login__wrap {
+    margin: 0 auto;
+    max-width: 396px;
+    min-height: 100%;
+}
+
+.login__logo {
+    width: 38px;
+    height: 38px;
+}
+.login__title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    margin: 40px auto 40px 0;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+   justify-content: space-between;
+
+}
+.login__inputWrap {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 42px;
+    margin-bottom: 180px;
+}
+
+.login__inputLabel {
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #8B8B8B;
+    padding-bottom: 5px;
+}
+.login__formInput {
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background-color: transparent;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #424242;
+    margin-bottom: 24px;
+}
+
+.login__formSubmit {
+    width: 100%;
+    background: #4285F4;
+    border-radius: 3px;
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 15px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 3ms;
+}
+.login__formSubmit:hover, .login__formSubmit:focus {
+    box-shadow:  0px 0px 10px 0px rgb(236 249 247) inset;
+}
+
+.login__formSubmit:active {
+    transform: scale(0.95);
+} {
+
+}
+
+.login__ask {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8B8B;
+    margin: 0 auto;
+}
+
+.login__askLink {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #4285F4;
+    margin-left: 6px;
+    text-decoration: none;
+}
+

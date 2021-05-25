@@ -10,7 +10,7 @@ import React from "react";
 import {
   Switch, Route, useParams, Link, NavLink
 } from "react-router-dom";
-// import Login from "../Login/Login";
+import Login from "../Login/Login";
 // import Register from "../Register/Register";
 
 function App() {
@@ -22,6 +22,9 @@ function App() {
             <Main />
             <Footer />
           </div>
+        </Route>
+        <Route path='/login' >
+          <Login />
         </Route>
         <Route path='*' >
           <NotFoundPage />
