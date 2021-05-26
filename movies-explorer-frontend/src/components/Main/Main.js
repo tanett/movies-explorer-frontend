@@ -9,25 +9,26 @@ import AboutProject from "../AboutProject/AboutProject";
 import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
+import Movies from "../Movies/Movies";
 import Footer from "../Footer/Footer";
 
 function Main(props) {
 
   return (
-      <main className='main' >
-        <Switch >
-          <Route exact path = "/">
-            <Promo />
+      <main className='main'>
+        <Switch>
+          <Route exact path="/">
+            <Promo/>
             <AboutProject/>
-            <Techs />
-            <AboutMe />
+            <Techs/>
+            <AboutMe/>
             <Portfolio/>
 
           </Route>
-          <Route  path = "/movies">
-
+          <Route path="/movies">
+            <Movies/>
           </Route>
-          <Route  path = "/saved-movies">
+          <Route path="/saved-movies">
 
           </Route>
 
