@@ -11,6 +11,7 @@ import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import Movies from "../Movies/Movies";
 import Footer from "../Footer/Footer";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 function Main(props) {
 
@@ -29,7 +30,7 @@ function Main(props) {
             <Movies/>
           </Route>
           <Route path="/saved-movies">
-
+            <SavedMovies/>
           </Route>
 
         </Switch>

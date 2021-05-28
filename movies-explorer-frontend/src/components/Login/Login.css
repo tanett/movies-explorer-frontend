@@ -99,12 +99,18 @@
     color: #FFFFFF;
     padding: 15px;
     margin-bottom: 16px;
-    cursor: pointer;
+
     transition: all 3ms;
 }
 
-.login__formSubmit:hover, .login__formSubmit:focus {
+.login__formSubmit:disabled {
+    background: #555f78;
+    color: #1c1b1b;
+}
+
+.login__formSubmit[disabled=false]:hover, .login__formSubmit:focus {
     box-shadow: 0px 0px 10px 0px rgb(236 249 247) inset;
+    cursor: pointer;
 }
 
 .login__formSubmit:active {

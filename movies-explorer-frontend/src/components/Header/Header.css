@@ -165,6 +165,7 @@
     }
 
     .header__linkWrap_mobileMenuOpen {
+        z-index: 1;
         display: flex;
         visibility: visible;
         padding: 90px;

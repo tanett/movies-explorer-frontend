@@ -2,17 +2,29 @@
     width: 100%;
     background: #202020;
     box-sizing: border-box;
-    padding: 70px 20px;
-    min-height: 100vh;
+    padding: 70px 70px 0;
+
     display: flex;
 }
 
 .movies__wrap {
+    width: 100%;
     box-sizing: border-box;
-    margin: 0 auto;
-    width: 410px;
-    min-height: 100%;
+
+    padding-top: 70px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+
+}
+
+@media screen and (max-width: 868px) {
+    .movies {
+        padding: 80px 30px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .footer__wrap {
+        padding: 90px 14px 80px;
+    }
 }

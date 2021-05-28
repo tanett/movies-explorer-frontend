@@ -1,7 +1,3 @@
-import {
-  Switch, Route, useParams, Link, NavLink
-} from "react-router-dom";
-
 import React from "react";
 import './Techs.css';
 

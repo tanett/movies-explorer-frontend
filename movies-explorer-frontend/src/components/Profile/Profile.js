@@ -6,7 +6,12 @@ import React from "react";
 import './Profile.css';
 
 function Profile() {
-
+  const inputLists = Array.from(document.querySelectorAll('input'));
+  const handleEditClick = () => {
+    inputLists.forEach((input) => input.disabled = false);
+    console.log(inputLists);
+    inputLists[0].focus();
+  }
 
   return (
       <main className={'profile'}>
@@ -24,7 +29,8 @@ function Profile() {
               <span className={'profile__errorInput profile__errorInput__name'}>Что-то пошло не так...</span>
               <label htmlFor={'email'} className={'profile__inputLabel'}>
                 E-mail
-                <input className={'profile__formInput'} type={'email'} id={'email'}  placeholder={'user.email'} disabled/>
+                <input className={'profile__formInput'} type={'email'} id={'email'} placeholder={'user.email'}
+                       disabled/>
               </label>
               <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
 
@@ -32,7 +38,7 @@ function Profile() {
 
           </form>
           <div className={'profile__btnWrap'}>
-            <button className={'profile__edit'} type={'button'}>Редактировать</button>
+            <button className={'profile__edit'} type={'button'} onClick={handleEditClick}>Редактировать</button>
 
             <Link to={'/'} className={'profile__logOut'}>Выйти из аккаунта</Link>
 

@@ -78,7 +78,7 @@
     visibility: hidden;
 }
 
-.register__errorInput_activ {
+.register__errorInput_active {
     visibility: visible;
     font-weight: normal;
     font-size: 10px;
@@ -99,12 +99,18 @@
     color: #FFFFFF;
     padding: 15px;
     margin-bottom: 16px;
-    cursor: pointer;
+
     transition: all 3ms;
 }
+.register__formSubmit:disabled {
+    background: #555f78;
+    color: #1c1b1b;
+}
 
-.register__formSubmit:hover, .register__formSubmit:focus {
+
+.register__formSubmit[disabled=false]:hover, .register__formSubmit:focus {
     box-shadow: 0px 0px 10px 0px rgb(236 249 247) inset;
+    cursor: pointer;
 }
 
 .register__formSubmit:active {

@@ -1,7 +1,3 @@
-import {
-  Switch, Route, useParams, Link, NavLink
-} from "react-router-dom";
-
 import React from "react";
 import './AboutProject.css';
 
@@ -28,8 +24,8 @@ function AboutProject(props) {
           <div className='aboutProject__timeline'>
             <span className='aboutProject__timelineZone aboutProject__timelineZone_green'>1 неделя</span>
             <span className='aboutProject__timelineZone aboutProject__timelineZone_grey'>4 недели</span>
-            <span  className='aboutProject__timelineZone aboutProject__timelineZone_timelineName'>Back-end</span>
-            <span  className='aboutProject__timelineZone aboutProject__timelineZone_timelineName'>Front-end</span>
+            <span className='aboutProject__timelineZone aboutProject__timelineZone_timelineName'>Back-end</span>
+            <span className='aboutProject__timelineZone aboutProject__timelineZone_timelineName'>Front-end</span>
           </div>
         </div>
       </section>
