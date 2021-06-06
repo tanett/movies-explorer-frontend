@@ -3,6 +3,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
+
   const handleClickMore = () => {
     console.log('i will show more films')
   }
@@ -12,16 +13,18 @@ function MoviesCardList(props) {
       <>
         <section className={'moviesCardList'}>
           {props.items.slice(0, 12).map((movie) => {
+
             return (
-                <MoviesCard dataMovie={movie} key={movie.id} saveBtnClassName={saveBtnClassName}
-                            onSaveClick={props.onDelMovieClick}/>
+                <MoviesCard dataMovie={movie} key={movie._id} saveBtnClassName={saveBtnClassName}
+                            onDelClick={props.onDelMovieClick} checkSaving={props.checkSaving}
+                onSaveClick={props.onSaveMovieClick}/>
             )
           })}
-        </section>
-        {(props.items.length > 12) &&
-        <button className={'moviesCardList__moreCard'} type={'button'} onClick={handleClickMore}>Ещё</button>}
-      </>
-  )
-}
+            </section>
+          {(props.items.length > 12) &&
+            <button className={'moviesCardList__moreCard'} type={'button'} onClick={handleClickMore}>Ещё</button>}
+            </>
+            )
+          }
 
 export default MoviesCardList;

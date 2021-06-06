@@ -6,7 +6,7 @@ import React from "react";
 import './Login.css';
 import logo from '../../images/logo.svg';
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -23,6 +23,7 @@ function Login() {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
+    props.onLogin(email, password);
     clearForm()
   }
 

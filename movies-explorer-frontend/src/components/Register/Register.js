@@ -6,7 +6,7 @@ import React from "react";
 import './Register.css';
 import logo from '../../images/logo.svg';
 
-function Register() {
+function Register(props) {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -30,6 +30,8 @@ function Register() {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
+    props.onRegister(name,email, password)
+        .catch(err=>console.log(err));
     clearForm()
   }
 

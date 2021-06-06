@@ -27,7 +27,7 @@ function Header(props) {
                 <Link to='/signup' className='header__linkSignin'>
                   Регистрация
                 </Link>
-                <Link to='/signin' className='header__linkSignin header__btn'>
+                <Link to={props.loggedIn? '/movies':'/signin'} className='header__linkSignin header__btn'>
                   Войти
                 </Link>
               </nav>

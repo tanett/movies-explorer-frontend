@@ -8,6 +8,8 @@
 }
 
 .moviesCard__poster-wrap {
+    display: block;
+    text-decoration: none;
     margin: 0 auto;
     padding: 0;
     width: 100%;
@@ -19,12 +21,19 @@
 .moviesCard__poster {
     margin: 0 auto;
     padding: 0;
-    width: 100%;
-    height: auto;
+    width: 360px;
+    height: 201px;
+
     object-position: center;
-    object-fit: contain;
+    object-fit: cover;
     transition: .5s ease-in-out;
     border-radius: 6px;
+
+
+}
+
+.moviesCard__poster:hover {
+    transform: scale(1.05);
 
 }
 
@@ -32,6 +41,7 @@
     display: flex;
     justify-content: space-between;
     padding: 14px;
+
 }
 
 .moviesCard__item-name {
@@ -40,17 +50,22 @@
     line-height: 16px;
     color: #FFFFFF;
     margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .moviesCard__time {
     font-weight: normal;
     font-size: 11px;
     line-height: 10px;
-    display: flex;
-    align-items: center;
     text-align: center;
     color: #8B8B8B;
     margin: 0;
+    background: #2F2F2F;
+    border-radius: 3px;
+    padding: 4px 10px;
+    flex-shrink: 0;
 }
 .moviesCard__Btn {
     padding: 6px;

@@ -233,3 +233,11 @@ export const savedMovies = [
   }
 ]
 
+export const configApi = {
+  urlForSearch: 'https://api.nomoreparties.co/beatfilm-movies',
+  baseUrl: 'https://api.films.shadrina.nomoredomains.icu',
+  headers: {
+    "Content-Type": 'application/json',
+    "Accept": 'application/json',
+  }
+}
