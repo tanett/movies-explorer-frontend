@@ -5,7 +5,7 @@ function Switcher(props) {
 
 
   const handleChangeCheckbox = () => {
-    props.onShortFilm();
+    props.onClick();
   }
 
 

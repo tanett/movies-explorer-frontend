@@ -111,20 +111,18 @@ function App() {
     }
   }
 
-  function handleEditSubmit({name, email}) {
+  function handleEditSubmit(name, email) {
     //setBtnLoader('Сохранение...');
-    mainApi.editUserInfo({name, email})
+    mainApi.editUserInfo({ name, email})
         .then((res) => {
-          setCurrentUser(res.user);
-
+          setCurrentUser(res);
+          console.log(currentUser)
         })
         .then(() => {
           //setBtnLoader('Сохранить')
-          console.log('saved')
+          console.log('saved');
         })
         .catch((err) => console.log(err));
-
-
   }
 
 

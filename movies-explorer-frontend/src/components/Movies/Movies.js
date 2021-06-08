@@ -48,7 +48,7 @@ function Movies() {
   )
 
   const handleSearchSubmit = (searchString) => {
-    let resRU = movies.filter((item) => item.nameRU.includes(searchString));
+    let resRU = movies.filter((item) => item.nameRU.toLowerCase().includes(searchString.toLowerCase()));
     setSearchRes([...resRU]);
     localStorage.setItem('searchRes', JSON.stringify({searchQuery: searchString, searchRes: [...resRU]}));
 
@@ -77,18 +77,22 @@ function Movies() {
     searchRes.filter(film => +film.duration <= 40);
   }, [searchRes]);
 
-  const onShortFilterClick = () => {
+  const onShortFilterClick =() => {
     setIsShort(!isShort);
-    if (isShort) {
-      setFilteredSearch(() => shortFilter())
-    }
-  }
+   };
+  React.useEffect(
+     ()=>{
+       if (isShort) {
+         setFilteredSearch(() => shortFilter())
+       }
+     }, [searchRes]
+  );
 
   return (
       <section className={'movies'}>
         <div className={'movies__wrap'}>
-          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery = {searchQuery}/>
-          <Switcher onShortFilm={onShortFilterClick} isActive={isShort}/>
+          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery = {searchQuery} onShortFilm={onShortFilterClick} isActive={isShort}/>
+
           <SearchResult searchRes={searchRes} searchCount={searchCount}>
             {searchRes.length > 0 &&
             <MoviesCardList items={isShort ? filteredSearch : searchRes}

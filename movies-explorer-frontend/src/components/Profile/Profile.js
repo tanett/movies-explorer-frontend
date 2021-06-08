@@ -12,16 +12,19 @@ function Profile(props) {
   const user = React.useContext(CurrentUserContext);
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [isPageLoader, setIsPageLoader] = React.useState(false);
-  const [name, setName] = React.useState(user.user.name);
-  const [email, setEmail] = React.useState(user.user.email);
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [equal, setEqual] = React.useState(true);
   const formEl = document.querySelector('form');
   const elements = Array.from(formEl.elements);
-  console.log(elements);
+
   const handleEditClick = () => {
-    elements.forEach((el) => el.disabled = false);
+    elements.slice(0, 2).forEach((el) => el.disabled = false);
 
     formEl.elements[0].focus();
+
     setIsEditOpen(true);
+
   }
   const handleCancelClick = () => {
     elements.forEach((el) => {
@@ -31,34 +34,40 @@ function Profile(props) {
       }
     });
     setIsEditOpen(false);
-
+    setName(user.user.name);
+    setEmail(user.user.email);
   }
   const handleChangeName = (e) => {
     setName(e.target.value);
     inputValidation(e.target);
+   name === user.user.name? setEqual(false):setEqual(true);
     changeButtonState(e.target.closest('form'))
   }
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
     inputValidation(e.target);
+    email === user.user.email? setEqual(false):setEqual(true);
     changeButtonState(e.target.closest('form'))
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    mainApi.editUserInfo({name, email})
-        .then((res) => {
-          setName(res.user.name);
-          setEmail(res.user.email);
-
-          setIsEditOpen(false);
-        })
-        .then(() => {
-          //setBtnLoader('Сохранить')
-          console.log('saved')
-        })
-        .catch((err) => console.log(err));
+    props.onEditSubmit(name, email);
+    setIsEditOpen(false);
+    //       setEmail(res.user.email);
+    // mainApi.editUserInfo({name, email})
+    //     .then((res) => {
+    //       setName(res.user.name);
+    //       setEmail(res.user.email);
+    //
+    //       setIsEditOpen(false);
+    //     })
+    //     .then(() => {
+    //       //setBtnLoader('Сохранить')
+    //       console.log('saved')
+    //     })
+    //     .catch((err) => console.log(err));
   }
+
   const hideError = (input) => {
     formEl.querySelector(`.profile__errorInput__${input.name}`).classList.remove(`profile__errorInput_active`);
   }
@@ -74,8 +83,14 @@ function Profile(props) {
       showError(input);
     }
   }
+  // const checkEqvalPrevInfo = () => {
+  //
+  //   return (user.user.name !== name || user.user.email !== email)
+  // }
+
   const changeButtonState = (form) => {
-    if (form.checkValidity()) {
+
+    if (form.checkValidity() && equal) {
       form.elements['submitButton'].disabled = false;
     } else {
       form.elements['submitButton'].disabled = true;
@@ -84,11 +99,11 @@ function Profile(props) {
   React.useEffect(
       () => {
         setIsPageLoader(true);
-              // setEmail(user.email);
-              // setName(user.name);
-              setTimeout(()=>setIsPageLoader(false), 1000)
-            }
-      , [isEditOpen]
+        setEmail(user.user.email);
+        setName(user.user.name);
+        setTimeout(() => setIsPageLoader(false), 1000)
+      }
+      , [ user]
   )
   console.log(name);
   return (
@@ -117,9 +132,9 @@ function Profile(props) {
 
               </label>
               <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
-              {isEditOpen &&
-              <button className={'profile__edit profile__edit_submit'} type={'submit'}
-                      name={'submitButton'}>Сохранить</button>}
+
+              <button className={`profile__edit profile__edit_submit ${isEditOpen? "" : "hidden"}`} type={'submit'}
+                      name={'submitButton'}>Сохранить</button>
             </div>
 
           </form>

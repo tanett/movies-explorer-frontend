@@ -119,6 +119,10 @@ min-width: 70%;
 .profile__edit_submit:disabled:hover{
     box-shadow: none;
 }
+.hidden {
+    visibility: hidden;
+}
+
 .profile__logOut {
     display: block;
     box-sizing: border-box;

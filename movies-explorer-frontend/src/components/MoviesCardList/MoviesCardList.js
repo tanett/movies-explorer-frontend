@@ -12,14 +12,12 @@ function MoviesCardList(props) {
   return (
       <>
         <section className={'moviesCardList'}>
-          {props.items.slice(0, 12).map((movie) => {
-
-            return (
+          {props.items.slice(0, 12).map((movie) =>  (
                 <MoviesCard dataMovie={movie} key={movie._id} saveBtnClassName={saveBtnClassName}
                             onDelClick={props.onDelMovieClick} checkSaving={props.checkSaving}
                 onSaveClick={props.onSaveMovieClick}/>
             )
-          })}
+          )}
             </section>
           {(props.items.length > 12) &&
             <button className={'moviesCardList__moreCard'} type={'button'} onClick={handleClickMore}>Ещё</button>}
