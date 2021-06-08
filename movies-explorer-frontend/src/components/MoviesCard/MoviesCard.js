@@ -1,5 +1,6 @@
 import React from "react";
 import './MoviesCard.css';
+import shot from  '../../images/no-image-2 (1).jpg';
 
 function MoviesCard(props) {
   let initialSavedState = (window.location.path !== '/saved-movies') ? (props.checkSaving ? props.checkSaving(props.dataMovie) : false) : true;
@@ -17,9 +18,9 @@ function MoviesCard(props) {
   }
   const timeHour = ~~(props.dataMovie.duration / 60);
   const timeMin = props.dataMovie.duration % 60;
-  const imageSrc = `https://api.nomoreparties.co${
-    props.dataMovie.image.formats.thumbnail.url || props.dataMovie.image.formats.small.url || props.dataMovie.image.url
-  }`;
+  const imageSrc = props.dataMovie.image? `https://api.nomoreparties.co${
+    props.dataMovie.image.formats?.thumbnail.url || props.dataMovie.image.formats?.small.url || props.dataMovie?.image.url
+  }`: shot;
 
   return (
       <figure className={'moviesCard'}>

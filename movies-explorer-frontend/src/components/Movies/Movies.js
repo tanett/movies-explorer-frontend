@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {
   Switch, Route, useHistory, Redirect
 } from "react-router-dom";
@@ -25,7 +25,8 @@ function Movies() {
   const [savedFilms, setSavedFilms] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
   const [isShort, setIsShort] = useState(false);
-  const [filteredSearch, setFilteredSearch] = useState([...searchRes]);
+  const [filteredSearch, setFilteredSearch] = useState([]);
+  const [showedFilms, setShowedFilms] = React.useState([...searchRes]);
   const history = useHistory();
   const isLogged = React.useContext(LoggedInContext);
 
@@ -42,6 +43,9 @@ function Movies() {
           console.log(prevSearch);
           setSearchRes(prevSearch.searchRes);
           setSearchQuery(prevSearch.searchQuery);
+          setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
+          setIsShort(false);
+          setShowedFilms([...prevSearch.searchRes])
         }
 
       }, []
@@ -57,6 +61,10 @@ function Movies() {
     console.log(resRU);
     console.log(filteredSearch);
     setSearchCount(searchCount + 1);
+
+    setShowedFilms([...resRU]);
+    checkFilter();
+
   }
   const handleSaveClick = (movie) => {
     console.log('save');
@@ -73,29 +81,38 @@ function Movies() {
   const checkSaving = (movie) => {
     return (savedFilms.filter((film) => film.movieId === movie.movieId).length !== 0)
   }
-  const shortFilter = React.useCallback(() => {
-    searchRes.filter(film => +film.duration <= 40);
-  }, [searchRes]);
 
-  const onShortFilterClick =() => {
+
+const checkFilter = () => {
+      if (isShort) {
+        setFilteredSearch(searchRes.filter(film => film.duration <= 40));
+        setShowedFilms([...filteredSearch]);
+      } else {
+        setShowedFilms([...searchRes]);
+      }
+    }
+
+  const onShortFilterClick = () => {
     setIsShort(!isShort);
-   };
-  React.useEffect(
-     ()=>{
-       if (isShort) {
-         setFilteredSearch(() => shortFilter())
-       }
-     }, [searchRes]
-  );
+    checkFilter();
+    console.log(showedFilms)
+  };
+React.useEffect(
+    ()=>{
+      checkFilter()
+    },[searchRes, isShort]
+)
+
 
   return (
       <section className={'movies'}>
         <div className={'movies__wrap'}>
-          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery = {searchQuery} onShortFilm={onShortFilterClick} isActive={isShort}/>
+          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={searchQuery} onShortFilm={onShortFilterClick}
+                      isShort={isShort}/>
 
           <SearchResult searchRes={searchRes} searchCount={searchCount}>
-            {searchRes.length > 0 &&
-            <MoviesCardList items={isShort ? filteredSearch : searchRes}
+            {showedFilms.length > 0 &&
+            <MoviesCardList items={showedFilms}
                             savedFilms={savedFilms}
                             onDelMovieClick={handleDeleteSavedFilms}
                             onSaveMovieClick={handleSaveClick} checkSaving={checkSaving}/>}
