@@ -28,7 +28,8 @@ function SavedMovies() {
 
   const handleDeleteClick = (movie) => {
     mainApi.deleteFilm(movie._id).then(res => {
-      setSmovie(sMovie.filter((film) => film.movieId !== movie.movieId))
+      setSmovie(sMovie.filter((film) => film.movieId !== movie.movieId));
+
     })
         .catch(err => console.log(err))
   }
@@ -77,7 +78,7 @@ function SavedMovies() {
           {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
           {searchCount > 0 && <SearchResult searchRes={searchRes} searchCount={searchCount}>
             {searchRes.length > 0 &&
-            <MoviesCardList items={searchRes} onDelMovieClick={handleDeleteClick}
+            <MoviesCardList items={searchRes} onDelMovieClick={handleDeleteClick} path = {'/saved-movies'}
             />}
           </SearchResult>}
           {searchCount === 0 && <MoviesCardList items={sMovie} onDelMovieClick={handleDeleteClick}

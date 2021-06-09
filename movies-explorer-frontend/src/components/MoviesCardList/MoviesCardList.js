@@ -52,9 +52,9 @@ function MoviesCardList(props) {
       <>
         <section className={'moviesCardList'}>
           {props.items.slice(0, countShowedFilms).map((movie) => (
-                  <MoviesCard dataMovie={movie} key={movie.id} saveBtnClassName={saveBtnClassName}
+                  <MoviesCard dataMovie={movie} key={movie.id || movie._id} saveBtnClassName={saveBtnClassName}
                               onDelClick={props.onDelMovieClick} checkSaving={props.checkSaving}
-                              onSaveClick={props.onSaveMovieClick} path={window.location.path}/>
+                              onSaveClick={props.onSaveMovieClick} path={props.path} isSaved={movie.isSaved}/>
               )
           )}
         </section>
