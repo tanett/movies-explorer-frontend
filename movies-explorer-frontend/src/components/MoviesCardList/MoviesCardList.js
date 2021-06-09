@@ -3,14 +3,37 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
-  const [numbAddedFilms, setNumbAddedFilms] = React.useState(3);
-  const [countShowedFilms, setCountShowedFilms] = React.useState(12);
+  const [numbAddedFilms, setNumbAddedFilms] = React.useState(null);
+  const [countShowedFilms, setCountShowedFilms] = React.useState(null);
+
+
   React.useEffect(
       () => {
-        const handleResize=()=> {
+        const width = document.documentElement.clientWidth;
+        if (width > 768) {
+          setNumbAddedFilms(3);
+          setCountShowedFilms(12)
+        } else if (width >= 480) {
+          setNumbAddedFilms(2);
+          setCountShowedFilms(8)
+        } else {
+          setNumbAddedFilms(5);
+          setCountShowedFilms(5)
+        }
+        console.log(width);
+        const handleResize = () => {
           setTimeout(() => {
-            const width = document.documentElement.clientWidth;
-            if (width > 768) {setNumbAddedFilms(4)} else {setNumbAddedFilms(2)}
+            const w = document.documentElement.clientWidth;
+            if (w > 768) {
+              setNumbAddedFilms(3);
+              setCountShowedFilms(12)
+            } else if (w >= 480) {
+              setNumbAddedFilms(2);
+              setCountShowedFilms(8)
+            } else {
+              setNumbAddedFilms(5);
+              setCountShowedFilms(5)
+            }
           }, 500)
         }
         window.addEventListener('resize', handleResize);
@@ -29,13 +52,13 @@ function MoviesCardList(props) {
       <>
         <section className={'moviesCardList'}>
           {props.items.slice(0, countShowedFilms).map((movie) => (
-                  <MoviesCard dataMovie={movie} key={movie._id} saveBtnClassName={saveBtnClassName}
+                  <MoviesCard dataMovie={movie} key={movie.id} saveBtnClassName={saveBtnClassName}
                               onDelClick={props.onDelMovieClick} checkSaving={props.checkSaving}
-                              onSaveClick={props.onSaveMovieClick}/>
+                              onSaveClick={props.onSaveMovieClick} path={window.location.path}/>
               )
           )}
         </section>
-        {(props.items.length > 12) &&
+        {(props.items.length > countShowedFilms) &&
         <button className={'moviesCardList__moreCard'} type={'button'} onClick={handleClickMore}>Ещё</button>}
       </>
   )

@@ -1,4 +1,5 @@
 import {configApi} from "./constants.js";
+import shot from "../images/no-image-2 (1).jpg";
 
 class MainApi {
   constructor(config) {
@@ -43,9 +44,20 @@ class MainApi {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify(
-          movie
-      )
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: movie.image? `https://api.nomoreparties.co${movie?.image.url}`: shot,
+        trailer: movie.trailerLink,
+        thumbnail: movie.image? `https://api.nomoreparties.co${
+            movie.image.formats?.thumbnail.url || movie.image.formats?.small.url}`: shot,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        movieId: movie.id,
+      })
     }).then(res => {
       if (res.ok) {
         return res.json();

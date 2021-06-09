@@ -40,7 +40,7 @@ function App() {
       () => {
         setIsPageLoader(true);
         handleTokenCheck();
-        setTimeout(()=>setIsPageLoader(false), 1000);
+        setTimeout(() => setIsPageLoader(false), 1000);
       }, [loggedIn]
   )
   console.log(loggedIn);
@@ -113,7 +113,7 @@ function App() {
 
   function handleEditSubmit(name, email) {
     //setBtnLoader('Сохранение...');
-    mainApi.editUserInfo({ name, email})
+    mainApi.editUserInfo({name, email})
         .then((res) => {
           setCurrentUser(res);
           console.log(currentUser)
@@ -129,32 +129,32 @@ function App() {
   return (
       <CurrentUserContext.Provider value={currentUser}>
         <LoggedInContext.Provider value={loggedIn}>
-          {isPageLoader && <Preloader/> }
-            <Switch>
+          {isPageLoader && <Preloader/>}
+          <Switch>
             <Route exact path={['/', '/movies', '/saved-movies']}>
-            <div className="page">
-            <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
-            <Main/>
-            <Footer/>
-            </div>
+              <div className="page">
+                <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
+                <Main/>
+                <Footer/>
+              </div>
             </Route>
             <Route path='/profile'>
-            <div className="page">
-            <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
-            <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
-            onLogout={handleLogout}/>
-            </div>
+              <div className="page">
+                <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
+                <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
+                                onLogout={handleLogout}/>
+              </div>
             </Route>
             <Route path='/signin'>
-            <Login onLogin={handleLogin}/>
+              <Login onLogin={handleLogin}/>
             </Route>
             <Route path='/signup'>
-            <Register onRegister={handleRegister}/>
+              <Register onRegister={handleRegister}/>
             </Route>
             <Route path='*'>
-          {loggedIn ? <NotFoundPage/> : <Redirect to="/signin"/>}
+              {loggedIn ? <NotFoundPage/> : <Redirect to="/signin"/>}
             </Route>
-            </Switch>
+          </Switch>
 
         </LoggedInContext.Provider>
       </CurrentUserContext.Provider>

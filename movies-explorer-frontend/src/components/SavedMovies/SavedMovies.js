@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import './SavedMovies.css';
 import {savedMovies} from "../../utils/constants";
 import MoviesCard from '../MoviesCard/MoviesCard';
@@ -12,46 +12,75 @@ function SavedMovies() {
   const [sMovie, setSmovie] = React.useState([]);
   const [searchRes, setSearchRes] = React.useState([]);
   const [searchCount, setSearchCount] = React.useState(0);
-React.useEffect(
-    ()=>{
-      mainApi.getSavedFilms().then(res => {
-        if(res){
-          setSmovie(res)
-        }
-      }).catch(err => console.log(err));
-    }, []
-)
-  const handleSearchSubmit = (searchString) => {
+  const [isShort, setIsShort] = useState(false);
+  const [filteredSearch, setFilteredSearch] = useState([]);
+  const [showedFilms, setShowedFilms] = React.useState([...searchRes]);
 
-    let resRU = sMovie.filter((item) => item.nameRU.includes(searchString));
-
-    setSearchRes([...resRU]);
-    console.log(sMovie);
-    console.log(searchString);
-    console.log(resRU);
-    setSearchCount(searchCount + 1);
-  }
+  React.useEffect(
+      () => {
+        mainApi.getSavedFilms().then(res => {
+          if (res) {
+            setSmovie(res)
+          }
+        }).catch(err => console.log(err));
+      }, []
+  )
 
   const handleDeleteClick = (movie) => {
-    console.log('delete film');
-    mainApi.deleteFilm(movie.movieId).then(res => {
+    mainApi.deleteFilm(movie._id).then(res => {
       setSmovie(sMovie.filter((film) => film.movieId !== movie.movieId))
     })
         .catch(err => console.log(err))
   }
+  // search
+  const handleSearchSubmit = (searchString) => {
+    let resRU = sMovie.filter((item) => item.nameRU.toLowerCase().includes(searchString.toLowerCase()));
+    setSearchRes([...resRU]);
+    localStorage.setItem('searchRes', JSON.stringify({searchQuery: searchString, searchRes: [...resRU]}));
+
+    console.log(sMovie);
+    console.log(searchString);
+    console.log(resRU);
+    console.log(filteredSearch);
+    setSearchCount(searchCount + 1);
+
+    setShowedFilms([...resRU]);
+    checkFilter();
+
+  }
+
+
+  const checkFilter = () => {
+    if (isShort) {
+      setFilteredSearch(searchRes.filter(film => film.duration <= 40));
+      setShowedFilms([...filteredSearch]);
+    } else {
+      setShowedFilms([...searchRes]);
+    }
+  }
+  const onShortFilterClick = () => {
+    setIsShort(!isShort);
+    checkFilter();
+    console.log(showedFilms)
+  };
+  React.useEffect(
+      ()=>{
+        checkFilter()
+      },[searchRes, isShort]
+  )
 
   return (
       <main className={'movies'}>
         <div className={'movies__wrap'}>
-          <SearchForm onSubmitSearch={handleSearchSubmit}/>
-          <Switcher/>
-          {sMovie.length===0 && <h2>Вы еще не добавили не одного фильма</h2>}
+          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={''} onShortFilm={onShortFilterClick}
+                      isShort={isShort}/>
+          {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
           {searchCount > 0 && <SearchResult searchRes={searchRes} searchCount={searchCount}>
             {searchRes.length > 0 &&
             <MoviesCardList items={searchRes} onDelMovieClick={handleDeleteClick}
             />}
           </SearchResult>}
-          {searchCount===0 &&  <MoviesCardList items={sMovie} onDelMovieClick={handleDeleteClick}
+          {searchCount === 0 && <MoviesCardList items={sMovie} onDelMovieClick={handleDeleteClick}
           />}
         </div>
       </main>
