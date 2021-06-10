@@ -1,7 +1,7 @@
 import React from "react";
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import Preloader from "../Preloader/Preloader";
+
 
 function MoviesCardList(props) {
 
@@ -56,7 +56,7 @@ function MoviesCardList(props) {
           {props.items.slice(0, countShowedFilms).map((movie) => (
                   <MoviesCard dataMovie={movie} key={movie.id || movie._id} saveBtnClassName={saveBtnClassName}
                               onDelClick={props.onDelMovieClick}
-                              onSaveClick={props.onSaveMovieClick} path={props.path} />
+                              onSaveClick={props.onSaveMovieClick} path={props.path}/>
               )
           )}
         </section>

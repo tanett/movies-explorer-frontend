@@ -1,39 +1,54 @@
 import React, {useState} from "react";
 import './SavedMovies.css';
-import {savedMovies} from "../../utils/constants";
-import MoviesCard from '../MoviesCard/MoviesCard';
+
 import SearchForm from "../SearchForm/SearchForm";
-import Switcher from "../Switcher/Switcher";
+
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import mainApi from "../../utils/MainApi";
 import SearchResult from "../SearchResult/SearchResult";
+import {CurrentUserContext} from "../../context/CurrentUserContext";
 
-function SavedMovies() {
+function SavedMovies(props) {
+  const user = React.useContext(CurrentUserContext);
   const [sMovie, setSmovie] = React.useState([]);
   const [searchRes, setSearchRes] = React.useState([]);
   const [searchCount, setSearchCount] = React.useState(0);
   const [isShort, setIsShort] = useState(false);
   const [filteredSearch, setFilteredSearch] = useState([]);
-  const [showedFilms, setShowedFilms] = React.useState([...searchRes]);
+  const [showedFilms, setShowedFilms] = React.useState([...sMovie]);
 
   React.useEffect(
       () => {
+        const userId=user.user._id;
         mainApi.getSavedFilms().then(res => {
+
           if (res) {
-            setSmovie(res);
-            setSearchRes(res);
-          }
-        }).catch(err => console.log(err));
+
+            const myFilms = res.filter(film=>film.owner === userId)
+           return myFilms
+
+          } else {props.tooltip("Что-то пошло не так")}
+        }).then(data=>{
+          setSmovie(data);
+          setSearchRes(data);
+        })
+            .catch(err => {
+          props.tooltip(err.message)
+          console.log(err)
+        });
 
       }, []
   )
 
   const handleDeleteClick = (movie) => {
-    mainApi.deleteFilm(movie._id).then(res => {
+    mainApi.deleteFilm(movie._id).then(() => {
       setSmovie(sMovie.filter((film) => film.movieId !== movie.movieId));
 
     })
-        .catch(err => console.log(err))
+        .catch(err => {
+          props.tooltip("Что-то пошло не так");
+          console.log(err)
+        })
   }
 
   // поиск и фильтрация
@@ -43,10 +58,6 @@ function SavedMovies() {
         .includes(searchString.toLowerCase()));
     setSearchRes([...resRU]);
 
-
-    console.log(searchString);
-    console.log(resRU);
-    console.log(filteredSearch);
     setSearchCount(searchCount + 1);
 
     setShowedFilms([...resRU]);
@@ -66,7 +77,7 @@ function SavedMovies() {
   const onShortFilterClick = () => {
     setIsShort(!isShort);
     checkFilter();
-    console.log(showedFilms);
+
   };
   React.useEffect(
       () => {
@@ -87,7 +98,7 @@ function SavedMovies() {
             <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick} path = {'/saved-movies'}
             />}
           </SearchResult>}
-          {searchCount === 0 && <MoviesCardList items={sMovie} onDelMovieClick={handleDeleteClick}
+          {searchCount === 0 && <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick}
           />}
         </div>
       </main>

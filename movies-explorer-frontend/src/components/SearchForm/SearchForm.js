@@ -1,6 +1,5 @@
 import React from "react";
 import './SearchForm.css';
-import Switcher from "../Switcher/Switcher";
 
 function SearchForm(props) {
 

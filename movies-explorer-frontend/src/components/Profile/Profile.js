@@ -4,7 +4,7 @@ import {
 
 import React from "react";
 import './Profile.css';
-import mainApi from "../../utils/MainApi";
+
 import {CurrentUserContext} from "../../context/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 
@@ -40,32 +40,20 @@ function Profile(props) {
   const handleChangeName = (e) => {
     setName(e.target.value);
     inputValidation(e.target);
-   name === user.user.name? setEqual(false):setEqual(true);
+    name === user.user.name ? setEqual(false) : setEqual(true);
     changeButtonState(e.target.closest('form'))
   }
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
     inputValidation(e.target);
-    email === user.user.email? setEqual(false):setEqual(true);
+    email === user.user.email ? setEqual(false) : setEqual(true);
     changeButtonState(e.target.closest('form'))
   }
   const handleSubmit = (e) => {
     e.preventDefault();
     props.onEditSubmit(name, email);
     setIsEditOpen(false);
-    //       setEmail(res.user.email);
-    // mainApi.editUserInfo({name, email})
-    //     .then((res) => {
-    //       setName(res.user.name);
-    //       setEmail(res.user.email);
-    //
-    //       setIsEditOpen(false);
-    //     })
-    //     .then(() => {
-    //       //setBtnLoader('Сохранить')
-    //       console.log('saved')
-    //     })
-    //     .catch((err) => console.log(err));
+
   }
 
   const hideError = (input) => {
@@ -83,10 +71,7 @@ function Profile(props) {
       showError(input);
     }
   }
-  // const checkEqvalPrevInfo = () => {
-  //
-  //   return (user.user.name !== name || user.user.email !== email)
-  // }
+
 
   const changeButtonState = (form) => {
 
@@ -103,7 +88,7 @@ function Profile(props) {
         setName(user.user.name);
         setTimeout(() => setIsPageLoader(false), 1000)
       }
-      , [ user]
+      , [user]
   )
   console.log(name);
   return (
@@ -133,8 +118,9 @@ function Profile(props) {
               </label>
               <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
 
-              <button className={`profile__edit profile__edit_submit ${isEditOpen? "" : "hidden"}`} type={'submit'}
-                      name={'submitButton'}>Сохранить</button>
+              <button className={`profile__edit profile__edit_submit ${isEditOpen ? "" : "hidden"}`} type={'submit'}
+                      name={'submitButton'}>Сохранить
+              </button>
             </div>
 
           </form>

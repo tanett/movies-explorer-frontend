@@ -18,22 +18,18 @@ import Profile from "../Profile/Profile";
 import * as auth from "../../utils/auth";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
-import Promo from "../Promo/Promo";
-import AboutProject from "../AboutProject/AboutProject";
-import Techs from "../Techs/Techs";
-import AboutMe from "../AboutMe/AboutMe";
-import Portfolio from "../Portfolio/Portfolio";
-import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies/SavedMovies";
+
+import Tooltip from "../Tooltip/Tooltip";
 
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
-  const [classPageLoad, setClassPageLoad] = React.useState('hidden');
+
   const [isPageLoader, setIsPageLoader] = React.useState(false);
 
   const [loggedIn, setLoggedIn] = React.useState('');
-  const [resRegistration, setResRegistration] = React.useState('');
+  const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
+  const [infoMessage, setInfoMessage] = React.useState('Все хорошо');
   const history = useHistory();
 
   React.useEffect(
@@ -50,14 +46,17 @@ function App() {
     return auth.register(name, email, password)
         .then(res => {
           if (!res || !res.ok) {
-            // setMessageToolTip('Что-то пошло не так!Попробуйте ещё раз.');
-            setResRegistration(false);
+            setInfoMessage('Что-то пошло не так!Попробуйте ещё раз.');
+            setIsTooltipOpen(true);
+            setTimeout(() => setIsTooltipOpen(false), 4000);
 
             //  throw new Error('что-то не так пошло')
           }
           if (res.userNoPassword) {
             //setMessageToolTip('Вы успешно зарегистрировались!');
-            setResRegistration(true);
+            setInfoMessage('Вы зарегестрировались');
+            setIsTooltipOpen(true);
+            setTimeout(() => setIsTooltipOpen(false), 4000);
             history.push('/signin')
           }
 
@@ -71,21 +70,24 @@ function App() {
         .then(data => {
 
           if (!data.token) {
-            //setMessageToolTip(data.message);
-
-            setResRegistration(false);
-            //setIsInfoTooltipOpen(true);
+            setInfoMessage(data.message)
+            setIsTooltipOpen(true);
+            setTimeout(() => setIsTooltipOpen(false), 4000);
             return data;
           }
+
           setLoggedIn(true);
           history.push('/movies');
           return data;
         })
+        .then(()=>mainApi.getUserInfo().then((data)=>{setCurrentUser(data)}).catch(err => console.log(err)))
+        .catch(err => console.log(err));
 
   }
 
   const handleLogout = () => {
     localStorage.removeItem('jwt');
+    localStorage.clear();
     setLoggedIn(false);
     setCurrentUser({
       name: "",
@@ -112,19 +114,33 @@ function App() {
   }
 
   function handleEditSubmit(name, email) {
-    //setBtnLoader('Сохранение...');
+
     mainApi.editUserInfo({name, email})
         .then((res) => {
-          setCurrentUser(res);
-          console.log(currentUser)
+          if (res) {
+            setCurrentUser(res);
+
+            setInfoMessage("У вас все получилось")
+            setIsTooltipOpen(true);
+            setTimeout(() => setIsTooltipOpen(false), 4000);
+          } else {
+            setInfoMessage("Что-то пошло не так!Попробуйте ещё раз.")
+            setIsTooltipOpen(true);
+            setTimeout(() => setIsTooltipOpen(false), 4000);
+          }
         })
         .then(() => {
-          //setBtnLoader('Сохранить')
+
           console.log('saved');
         })
         .catch((err) => console.log(err));
   }
 
+  const showTooltip = (message) => {
+    setInfoMessage(message)
+    setIsTooltipOpen(true);
+    setTimeout(() => setIsTooltipOpen(false), 4000);
+  }
 
   return (
       <CurrentUserContext.Provider value={currentUser}>
@@ -134,7 +150,7 @@ function App() {
             <Route exact path={['/', '/movies', '/saved-movies']}>
               <div className="page">
                 <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
-                <Main/>
+                <Main tooltip={showTooltip}/>
                 <Footer/>
               </div>
             </Route>
@@ -155,7 +171,7 @@ function App() {
               {loggedIn ? <NotFoundPage/> : <Redirect to="/signin"/>}
             </Route>
           </Switch>
-
+          <Tooltip message={infoMessage} isOpen={isTooltipOpen}/>
         </LoggedInContext.Provider>
       </CurrentUserContext.Provider>
   );

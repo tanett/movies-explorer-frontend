@@ -1,5 +1,4 @@
 import React from "react";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./SearchResult.css";
 
 function SearchResult(props) {

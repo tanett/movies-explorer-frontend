@@ -1,11 +1,11 @@
 import {
-  Switch, Route, useParams, Link, NavLink
+  Link
 } from "react-router-dom";
 
 import React from "react";
 import './Promo.css';
 
-function Promo(props) {
+function Promo() {
 
   return (
       <section className='promo'>

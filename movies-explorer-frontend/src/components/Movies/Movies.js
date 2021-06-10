@@ -9,7 +9,11 @@ import moviesApi from "../../utils/MoviesApi";
 import SearchResult from "../SearchResult/SearchResult";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
-function Movies() {
+import {CurrentUserContext} from "../../context/CurrentUserContext";
+
+
+function Movies(props) {
+  const user = React.useContext(CurrentUserContext);
   const [movies, setMovies] = useState([]);
   const [updateMovies, setUpdateMovies] = useState([]);
   const [searchRes, setSearchRes] = useState([]);
@@ -19,29 +23,25 @@ function Movies() {
   const [isShort, setIsShort] = useState(false);
   const [filteredSearch, setFilteredSearch] = useState([]);
   const [showedFilms, setShowedFilms] = React.useState([...searchRes]);
-  const [isPageLoader,setIsPageLoader] = React.useState(false);
+  const [isPageLoader, setIsPageLoader] = React.useState(false);
 
   React.useEffect(
       () => {
-
+        const userId = user.user._id
+        setIsPageLoader(true);
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
               setMovies(data[0]);
-              setSavedFilms(data[1]);
-              // setUpdateMovies(data[0])
-              return data[0];
+              return data[1];
             })
-
-            //         .then(res => {
-            //           res.forEach(film => {
-            //             (savedFilms.findIndex((movie) => movie.movieId === film.id) > -1) ? film.isSaved = true : film.isSaved = false;
-            // console.log(film);
-            //             return film;
-            //           });
-            //           setUpdateMovies(res);
-            //
-            //         })
+            .then(
+                (data) => {
+                  const myFilms = data.filter(film => film.owner === userId)
+                  setSavedFilms(myFilms);
+                }
+            )
             .catch(err => console.log(err));
+
 
         const update = movies.map(film => {
           const sf = savedFilms.find((movie) => movie.movieId === film.id);
@@ -60,12 +60,13 @@ function Movies() {
           setIsShort(false);
           setShowedFilms([...prevSearch.searchRes]);
         }
+        setIsPageLoader(false);
       }, []
   );
 
 // Сохранение и удаление
   const handleSaveClick = (movie) => {
-setIsPageLoader(true);
+    setIsPageLoader(true);
     mainApi.saveFilm(movie)
         .then(res => {
           if (res.owner) {
@@ -89,8 +90,11 @@ setIsPageLoader(true);
           } else new Error("Invalid Response");
         })
 
-        .catch(err => console.log(err))
-        .finally(()=>setIsPageLoader(false));
+        .catch(err => {
+          props.tooltip(err.message)
+          console.log(err)
+        })
+        .finally(() => setIsPageLoader(false));
 
 
   };
@@ -117,8 +121,11 @@ setIsPageLoader(true);
           });
           setSearchRes([...newSavM])
         })
-        .catch(err => console.log(err))
-        .finally(()=>setIsPageLoader(false));;
+        .catch(err => {
+          props.tooltip(err.message)
+          console.log(err)
+        })
+        .finally(() => setIsPageLoader(false));
   };
 
 // поиск и фильтрация

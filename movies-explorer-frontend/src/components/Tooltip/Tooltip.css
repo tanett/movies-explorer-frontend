@@ -1,0 +1,23 @@
+.tooltip {
+    width: 50%;
+    position: fixed;
+    bottom: 25%;
+    right: 50%;
+    transform: translateX(50%);
+    border-radius: 10px;
+    border: 1px solid gray;
+    background-color: rgba(28, 27, 27, 0.82);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tooltip__message {
+    color: white;
+    font-weight: normal;
+text-align: center;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.tooltip__visible {
+    opacity: 1;
+}
