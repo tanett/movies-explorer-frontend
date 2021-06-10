@@ -1,0 +1,37 @@
+server {
+        listen 80;
+
+        server_name api.mesto.full.nomoredomains.icu;
+
+        location / {
+                proxy_pass http://localhost:3000;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+        }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mesto.full.nomoredomains.monster/full>
+    ssl_certificate_key /etc/letsencrypt/live/mesto.full.nomoredomains.monster/>
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+        listen 80;
+
+        server_name mesto.full.nomoredomains.monster;
+        try_files $uri /index.html;
+        root /home/ta-nett/react-mesto-api-full/frontend/build;
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mesto.full.nomoredomains.monster/full>
+    ssl_certificate_key /etc/letsencrypt/live/mesto.full.nomoredomains.monster/>
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
