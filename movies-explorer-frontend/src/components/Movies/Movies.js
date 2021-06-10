@@ -130,21 +130,19 @@ function Movies(props) {
 
 // поиск и фильтрация
   const handleSearchSubmit = (searchString) => {
-    console.log(updateMovies);
+
     let resRU = updateMovies.filter((item) => item.nameRU.toLowerCase()
         .includes(searchString.toLowerCase()));
-    setSearchRes([...resRU]);
+    let resEn = updateMovies.filter((item) => item.nameEN.toLowerCase()
+        .includes(searchString.toLowerCase()));
+    let res = new Set([...resRU, ...resEn]);
+    setSearchRes([...res]);
     localStorage.setItem("searchRes", JSON.stringify({
       searchQuery: searchString,
-      searchRes: [...resRU]
+      searchRes: [...res]
     }));
-
-    console.log(searchString);
-    console.log(resRU);
-    console.log(filteredSearch);
     setSearchCount(searchCount + 1);
-
-    setShowedFilms([...resRU]);
+    setShowedFilms([...res]);
     checkFilter();
 
   };
