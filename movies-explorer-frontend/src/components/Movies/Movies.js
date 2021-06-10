@@ -133,8 +133,12 @@ function Movies(props) {
 
     let resRU = updateMovies.filter((item) => item.nameRU.toLowerCase()
         .includes(searchString.toLowerCase()));
-    let resEn = updateMovies.filter((item) => item.nameEN.toLowerCase()
-        .includes(searchString.toLowerCase()));
+    let resEn = updateMovies.filter((item) => {
+      if(item.nameEN !== null) {
+        return item.nameEN.toLowerCase()
+            .includes(searchString.toLowerCase())
+      }
+    });
     let res = new Set([...resRU, ...resEn]);
     setSearchRes([...res]);
     localStorage.setItem("searchRes", JSON.stringify({
