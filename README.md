@@ -1,8 +1,8 @@
 # Фронтенд часть дипломного проекта
 
-###домен для frontend
+### домен для frontend
 films.shadrina.nomoredomains.icu
-###домен для backend
+### домен для backend
 api.films.shadrina.nomoredomains.icu
 ###ip
 84.252.132.208
