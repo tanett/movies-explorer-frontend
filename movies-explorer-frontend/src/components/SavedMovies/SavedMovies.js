@@ -20,9 +20,11 @@ function SavedMovies() {
       () => {
         mainApi.getSavedFilms().then(res => {
           if (res) {
-            setSmovie(res)
+            setSmovie(res);
+            setSearchRes(res);
           }
         }).catch(err => console.log(err));
+
       }, []
   )
 
@@ -33,13 +35,15 @@ function SavedMovies() {
     })
         .catch(err => console.log(err))
   }
-  // search
-  const handleSearchSubmit = (searchString) => {
-    let resRU = sMovie.filter((item) => item.nameRU.toLowerCase().includes(searchString.toLowerCase()));
-    setSearchRes([...resRU]);
-    localStorage.setItem('searchRes', JSON.stringify({searchQuery: searchString, searchRes: [...resRU]}));
 
+  // поиск и фильтрация
+  const handleSearchSubmit = (searchString) => {
     console.log(sMovie);
+    let resRU = sMovie.filter((item) => item.nameRU.toLowerCase()
+        .includes(searchString.toLowerCase()));
+    setSearchRes([...resRU]);
+
+
     console.log(searchString);
     console.log(resRU);
     console.log(filteredSearch);
@@ -48,8 +52,7 @@ function SavedMovies() {
     setShowedFilms([...resRU]);
     checkFilter();
 
-  }
-
+  };
 
   const checkFilter = () => {
     if (isShort) {
@@ -58,17 +61,20 @@ function SavedMovies() {
     } else {
       setShowedFilms([...searchRes]);
     }
-  }
+  };
+
   const onShortFilterClick = () => {
     setIsShort(!isShort);
     checkFilter();
-    console.log(showedFilms)
+    console.log(showedFilms);
   };
   React.useEffect(
-      ()=>{
-        checkFilter()
-      },[searchRes, isShort]
-  )
+      () => {
+
+        checkFilter();
+
+      }, [searchRes, isShort]
+  );
 
   return (
       <main className={'movies'}>
@@ -78,7 +84,7 @@ function SavedMovies() {
           {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
           {searchCount > 0 && <SearchResult searchRes={searchRes} searchCount={searchCount}>
             {searchRes.length > 0 &&
-            <MoviesCardList items={searchRes} onDelMovieClick={handleDeleteClick} path = {'/saved-movies'}
+            <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick} path = {'/saved-movies'}
             />}
           </SearchResult>}
           {searchCount === 0 && <MoviesCardList items={sMovie} onDelMovieClick={handleDeleteClick}

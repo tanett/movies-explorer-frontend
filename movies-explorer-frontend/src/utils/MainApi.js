@@ -45,7 +45,7 @@ class MainApi {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        country: movie.country,
+        country: movie.country===null? "null":movie.country,
         director: movie.director,
         duration: movie.duration,
         year: movie.year,
@@ -55,7 +55,7 @@ class MainApi {
         thumbnail: movie.image? `https://api.nomoreparties.co${
             movie.image.formats?.thumbnail.url || movie.image.formats?.small.url}`: shot,
         nameRU: movie.nameRU,
-        nameEN: movie.nameEN,
+        nameEN: movie.nameEN===""? movie.nameRU:movie.nameEN,
         movieId: movie.id,
       })
     }).then(res => {
@@ -75,6 +75,9 @@ class MainApi {
       }
       return Promise.reject(`Ошибка: ${res.status}`);
     })
+  }
+  changeSaveFilmStatus(film,hasSave) {
+    if (hasSave) {return this.deleteFilm(film._id)} else {return this.saveFilm(film)}
   }
   getSavedFilms() {
     return fetch(`${this._baseUrl}/movies`, {

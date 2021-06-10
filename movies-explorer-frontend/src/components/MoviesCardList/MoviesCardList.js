@@ -1,8 +1,10 @@
 import React from "react";
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList(props) {
+
   const [numbAddedFilms, setNumbAddedFilms] = React.useState(null);
   const [countShowedFilms, setCountShowedFilms] = React.useState(null);
 
@@ -24,10 +26,10 @@ function MoviesCardList(props) {
         const handleResize = () => {
           setTimeout(() => {
             const w = document.documentElement.clientWidth;
-            if (w > 768) {
+            if (w > 1210) {
               setNumbAddedFilms(3);
               setCountShowedFilms(12)
-            } else if (w >= 480) {
+            } else if (w >= 600) {
               setNumbAddedFilms(2);
               setCountShowedFilms(8)
             } else {
@@ -53,8 +55,8 @@ function MoviesCardList(props) {
         <section className={'moviesCardList'}>
           {props.items.slice(0, countShowedFilms).map((movie) => (
                   <MoviesCard dataMovie={movie} key={movie.id || movie._id} saveBtnClassName={saveBtnClassName}
-                              onDelClick={props.onDelMovieClick} checkSaving={props.checkSaving}
-                              onSaveClick={props.onSaveMovieClick} path={props.path} isSaved={movie.isSaved}/>
+                              onDelClick={props.onDelMovieClick}
+                              onSaveClick={props.onSaveMovieClick} path={props.path} />
               )
           )}
         </section>
