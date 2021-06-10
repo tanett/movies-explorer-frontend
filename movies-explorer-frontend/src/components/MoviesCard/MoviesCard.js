@@ -31,9 +31,9 @@ function MoviesCard(props) {
 
   const handleSaveClick = () => {
     props.onSaveClick(props.dataMovie);
-    if (props.path !== "/saved-movies") {
-      setIsSaved(!isSaved);
-    }
+    if (props.path !== "/saved-movies" && isSaved===false)  {
+      setIsSaved(true);
+    } else (setIsSaved(false))
 
   };
   const handleDeleteClick = () => {
