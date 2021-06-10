@@ -18,7 +18,7 @@ export const register = (name, email, passw) => {
     return res.json()
   })
       .then(res => {
-        console.log(res);
+
         return res
       })
 

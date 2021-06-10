@@ -44,7 +44,10 @@ function App() {
         handleTokenCheck();
         mainApi.getUserInfo()
             .then((data)=>setCurrentUser(data))
-            .catch(err =>console.log(err));
+            .catch(err => {
+              showTooltip(err.message);
+              console.log(err)
+            });
         setTimeout(() => setIsPageLoader(false), 1000);
       }, [loggedIn]
   )
@@ -71,7 +74,10 @@ function App() {
 
           // setIsInfoTooltipOpen(true);
 
-        }).catch(err => console.log(err));
+        }).catch(err => {
+          showTooltip(err.message);
+          console.log(err)
+        });
   }
 
   function handleLogin(login, password) {
@@ -89,8 +95,11 @@ function App() {
           setCurrentUser(data);
           setLoggedIn(true);
           history.push('/movies');
-        }).catch(err => console.log(err)))
-        .catch(err => console.log(err));
+        }).catch(err => showTooltip(err.message)))
+        .catch(err => {
+          showTooltip(err.message);
+          console.log(err)
+        });
 
   }
 
@@ -112,9 +121,13 @@ function App() {
           res => {
               setLoggedIn(true);
               setCurrentUser(res);
-            history.push('/movies')
+              localStorage.setItem('user', JSON.stringify(res));
+
           }
-      ).catch(err => console.log(err))
+      ).catch(err => {
+        showTooltip(err.message);
+        console.log(err)
+      })
 
     }
   }
@@ -139,7 +152,10 @@ function App() {
 
           console.log('saved');
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          showTooltip(err.message);
+          console.log(err)
+        });
   }
 
   const showTooltip = (message) => {

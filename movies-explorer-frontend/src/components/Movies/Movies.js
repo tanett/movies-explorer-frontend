@@ -31,7 +31,7 @@ function Movies(props) {
 
   React.useEffect(
       () => {
-        const userId = props.user.user._id
+        const userId = JSON.parse(localStorage.getItem('user')).user._id;
         setIsPageLoader(true);
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
@@ -44,7 +44,10 @@ function Movies(props) {
                   setSavedFilms(myFilms);
                 }
             )
-            .catch(err => console.log(err));
+            .catch(err => {
+              props.tooltip(err.message);
+              console.log(err)
+            });
 
 
         const update = movies.map(film => {
@@ -57,7 +60,7 @@ function Movies(props) {
 
         if (localStorage.getItem("searchRes")) {
           const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
-          console.log(prevSearch);
+
           setSearchRes(prevSearch.searchRes);
           setSearchQuery(prevSearch.searchQuery);
           setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
@@ -95,8 +98,8 @@ function Movies(props) {
         })
 
         .catch(err => {
-          props.tooltip(err.message)
-          console.log(err)
+          props.tooltip(err.message);
+          console.log(err);
         })
         .finally(() => setIsPageLoader(false));
 
@@ -167,7 +170,7 @@ function Movies(props) {
   const onShortFilterClick = () => {
     setIsShort(!isShort);
     checkFilter();
-    console.log(showedFilms);
+
   };
   React.useEffect(
       () => {
@@ -182,8 +185,6 @@ function Movies(props) {
       }, [searchRes, isShort]
   );
 
-  console.log(savedFilms);
-  console.log(updateMovies);
 
   return (
 

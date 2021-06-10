@@ -13,8 +13,8 @@ function MoviesCard(props) {
           setSrcImg(props.dataMovie.owner ?
               props.dataMovie.thumbnail :
               props.dataMovie.image ? `https://api.nomoreparties.co${
-              props.dataMovie.image.formats?.thumbnail.url || props.dataMovie.image.formats?.small.url || props.dataMovie?.image.url
-          }` : shot);
+                  props.dataMovie.image.formats?.thumbnail.url || props.dataMovie.image.formats?.small.url || props.dataMovie?.image.url
+              }` : shot);
           setIsSaved(!!props.dataMovie.owner);
         } else {
           setSrcImg(props.dataMovie.thumbnail || shot);
@@ -41,7 +41,7 @@ function MoviesCard(props) {
 
   return (
       <figure className={"moviesCard"}>
-        <a className="moviesCard__poster-wrap" href={props.dataMovie.trailerLink} target={"_blank"} rel="noreferrer" >
+        <a className="moviesCard__poster-wrap" href={props.dataMovie.trailerLink} target={"_blank"} rel="noreferrer">
           <img className="moviesCard__poster" alt={props.dataMovie.nameRU} src={srcImg}
                title={props.dataMovie.description}/>
         </a>
@@ -55,7 +55,7 @@ function MoviesCard(props) {
         <button
             className={`moviesCard__Btn  ${isSaved ? props.saveBtnClassName : "moviesCard__Btn_save"}`}
             type="button" title={isSaved ? "Удалить" : "Сохранить"}
-            onClick={isSaved ? handleDeleteClick  : handleSaveClick}>{isSaved ? "" : "Сохранить"}</button>
+            onClick={isSaved ? handleDeleteClick : handleSaveClick}>{isSaved ? "" : "Сохранить"}</button>
       </figure>
   );
 }

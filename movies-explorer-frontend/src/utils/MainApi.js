@@ -45,17 +45,17 @@ class MainApi {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        country: movie.country===null? "null":movie.country,
+        country: movie.country === null ? "null" : movie.country,
         director: movie.director,
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: movie.image? `https://api.nomoreparties.co${movie?.image.url}`: shot,
+        image: movie.image ? `https://api.nomoreparties.co${movie?.image.url}` : shot,
         trailer: movie.trailerLink,
-        thumbnail: movie.image? `https://api.nomoreparties.co${
-            movie.image.formats?.thumbnail.url || movie.image.formats?.small.url}`: shot,
+        thumbnail: movie.image ? `https://api.nomoreparties.co${
+            movie.image.formats?.thumbnail.url || movie.image.formats?.small.url}` : shot,
         nameRU: movie.nameRU,
-        nameEN: movie.nameEN===""? movie.nameRU:movie.nameEN,
+        nameEN: movie.nameEN === "" ? movie.nameRU : movie.nameEN,
         movieId: movie.id,
       })
     }).then(res => {
@@ -65,6 +65,7 @@ class MainApi {
       return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
+
   deleteFilm(movieID) {
     return fetch(`${this._baseUrl}/movies/${movieID}`, {
       method: 'DELETE',
@@ -76,9 +77,15 @@ class MainApi {
       return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
-  changeSaveFilmStatus(film,hasSave) {
-    if (hasSave) {return this.deleteFilm(film._id)} else {return this.saveFilm(film)}
+
+  changeSaveFilmStatus(film, hasSave) {
+    if (hasSave) {
+      return this.deleteFilm(film._id)
+    } else {
+      return this.saveFilm(film)
+    }
   }
+
   getSavedFilms() {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'GET',

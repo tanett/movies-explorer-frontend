@@ -7,7 +7,7 @@ import './Profile.css';
 
 import {CurrentUserContext} from "../../context/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
-import Footer from "../Footer/Footer";
+
 import Header from "../Header/Header";
 import {LoggedInContext} from "../../context/LoggedInContext";
 
@@ -19,6 +19,20 @@ function Profile(props) {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [equal, setEqual] = React.useState(true);
+
+
+  React.useEffect(
+      () => {
+        const user = JSON.parse(localStorage.getItem('user')).user;
+        setIsPageLoader(true);
+        setEmail(user.email);
+        setName(user.name);
+        setTimeout(() => setIsPageLoader(false), 1000)
+      }
+      , []
+  )
+
+  //  ввод в форму
   const formEl = document.querySelector('form');
   const elements = Array.from(formEl.elements);
 
@@ -59,7 +73,7 @@ function Profile(props) {
     setIsEditOpen(false);
 
   }
-
+// валидация
   const hideError = (input) => {
     formEl.querySelector(`.profile__errorInput__${input.name}`).classList.remove(`profile__errorInput_active`);
   }
@@ -76,7 +90,6 @@ function Profile(props) {
     }
   }
 
-
   const changeButtonState = (form) => {
 
     if (form.checkValidity() && equal) {
@@ -85,15 +98,7 @@ function Profile(props) {
       form.elements['submitButton'].disabled = true;
     }
   }
-  React.useEffect(
-      () => {
-        setIsPageLoader(true);
-        setEmail(user.user.email);
-        setName(user.user.name);
-        setTimeout(() => setIsPageLoader(false), 1000)
-      }
-      , [user]
-  )
+
   console.log(name);
   return (
       <div className={'page'}>
