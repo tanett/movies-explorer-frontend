@@ -4,7 +4,7 @@ import {LoggedInContext} from "../../context/LoggedInContext";
 
 const ProtectedRoute = ({component: Component, ...props}) => {
   const isLoggedIn = React.useContext(LoggedInContext);
-console.log(isLoggedIn);
+
   return (
       <Route>
         {

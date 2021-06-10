@@ -23,7 +23,11 @@ import Tooltip from "../Tooltip/Tooltip";
 
 
 function App() {
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({
+    name: "",
+    email: "",
+
+  });
 
   const [isPageLoader, setIsPageLoader] = React.useState(false);
 
@@ -36,6 +40,9 @@ function App() {
       () => {
         setIsPageLoader(true);
         handleTokenCheck();
+        mainApi.getUserInfo()
+            .then((data)=>setCurrentUser(data))
+            .catch(err =>console.log(err));
         setTimeout(() => setIsPageLoader(false), 1000);
       }, [loggedIn]
   )
@@ -68,19 +75,19 @@ function App() {
   function handleLogin(login, password) {
     return auth.authorize(login, password)
         .then(data => {
-
           if (!data.token) {
             setInfoMessage(data.message)
             setIsTooltipOpen(true);
             setTimeout(() => setIsTooltipOpen(false), 4000);
             return data;
           }
-
-          setLoggedIn(true);
-          history.push('/movies');
           return data;
         })
-        .then(()=>mainApi.getUserInfo().then((data)=>{setCurrentUser(data)}).catch(err => console.log(err)))
+        .then(() => mainApi.getUserInfo().then((data) => {
+          setCurrentUser(data);
+          setLoggedIn(true);
+          history.push('/movies');
+        }).catch(err => console.log(err)))
         .catch(err => console.log(err));
 
   }
