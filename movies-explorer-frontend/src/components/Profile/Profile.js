@@ -99,7 +99,7 @@ function Profile(props) {
           <h1 className={'profile__title'}>
             Привет, {name}!
           </h1>
-          <form className={'profile__form'} onSubmit={handleSubmit}>
+          <form className={'profile__form'} onSubmit={handleSubmit} >
             <div className={'profile__inputWrap'}>
               <label htmlFor={'name'} className={'profile__inputLabel'}>
                 <span>Имя</span>
@@ -119,7 +119,7 @@ function Profile(props) {
               <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
 
               <button className={`profile__edit profile__edit_submit ${isEditOpen ? "" : "hidden"}`} type={'submit'}
-                      name={'submitButton'}>Сохранить
+                      name={'submitButton'} disabled>Сохранить
               </button>
             </div>
 
