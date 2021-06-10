@@ -10,10 +10,14 @@ import SearchResult from "../SearchResult/SearchResult";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
 import {CurrentUserContext} from "../../context/CurrentUserContext";
+import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
+import {LoggedInContext} from "../../context/LoggedInContext";
 
 
 function Movies(props) {
   const user = React.useContext(CurrentUserContext);
+  const loggedIn = React.useContext(LoggedInContext);
   const [movies, setMovies] = useState([]);
   const [updateMovies, setUpdateMovies] = useState([]);
   const [searchRes, setSearchRes] = useState([]);
@@ -27,7 +31,7 @@ function Movies(props) {
 
   React.useEffect(
       () => {
-        const userId = user.user._id
+        const userId = props.user.user._id
         setIsPageLoader(true);
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
@@ -134,7 +138,7 @@ function Movies(props) {
     let resRU = updateMovies.filter((item) => item.nameRU.toLowerCase()
         .includes(searchString.toLowerCase()));
     let resEn = updateMovies.filter((item) => {
-      if(item.nameEN !== null) {
+      if (item.nameEN !== null) {
         return item.nameEN.toLowerCase()
             .includes(searchString.toLowerCase())
       }
@@ -182,23 +186,31 @@ function Movies(props) {
   console.log(updateMovies);
 
   return (
-      <section className={"movies"}>
-        <div className={"movies__wrap"}>
-          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={searchQuery}
-                      onShortFilm={onShortFilterClick}
-                      isShort={isShort}/>
 
-          <SearchResult searchRes={searchRes} searchCount={searchCount}>
-            {isPageLoader && <Preloader/>}
-            {showedFilms.length > 0 &&
-            <MoviesCardList items={showedFilms}
-                            savedFilms={savedFilms}
-                            onDelMovieClick={handleDeleteSavedFilms}
-                            onSaveMovieClick={handleSaveClick}
-                            path={'/movies'}/>}
-          </SearchResult>
-        </div>
-      </section>
+      <div className={'page'}>
+        <Header loggedIn={loggedIn}/>
+        <main className={'main'}>
+          <section className={"movies"}>
+            <div className={"movies__wrap"}>
+              <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={searchQuery}
+                          onShortFilm={onShortFilterClick}
+                          isShort={isShort}/>
+
+              <SearchResult searchRes={searchRes} searchCount={searchCount}>
+                {isPageLoader && <Preloader/>}
+                {showedFilms.length > 0 &&
+                <MoviesCardList items={showedFilms}
+                                savedFilms={savedFilms}
+                                onDelMovieClick={handleDeleteSavedFilms}
+                                onSaveMovieClick={handleSaveClick}
+                                path={'/movies'}/>}
+              </SearchResult>
+            </div>
+          </section>
+        </main>
+        <Footer/>
+      </div>
+
   );
 }
 

@@ -7,9 +7,13 @@ import './Profile.css';
 
 import {CurrentUserContext} from "../../context/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
+import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
+import {LoggedInContext} from "../../context/LoggedInContext";
 
 function Profile(props) {
   const user = React.useContext(CurrentUserContext);
+  const loggedIn = React.useContext(LoggedInContext);
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [isPageLoader, setIsPageLoader] = React.useState(false);
   const [name, setName] = React.useState('');
@@ -92,47 +96,52 @@ function Profile(props) {
   )
   console.log(name);
   return (
-      <main className={'profile'}>
-        {isPageLoader && <Preloader/>}
-        <div className={'profile__wrap'}>
+      <div className={'page'}>
+        <Header loggedIn={loggedIn}/>
+        <div className={'main'}>
+          <main className={'profile'}>
+            {isPageLoader && <Preloader/>}
+            <div className={'profile__wrap'}>
 
-          <h1 className={'profile__title'}>
-            Привет, {name}!
-          </h1>
-          <form className={'profile__form'} onSubmit={handleSubmit} >
-            <div className={'profile__inputWrap'}>
-              <label htmlFor={'name'} className={'profile__inputLabel'}>
-                <span>Имя</span>
-                <input className={'profile__formInput'} type={'text'} id={'name'} placeholder={'имя'}
-                       value={name} disabled name={'name'} required minLength={2} maxLength={30}
-                       onChange={handleChangeName}/>
+              <h1 className={'profile__title'}>
+                Привет, {name}!
+              </h1>
+              <form className={'profile__form'} onSubmit={handleSubmit}>
+                <div className={'profile__inputWrap'}>
+                  <label htmlFor={'name'} className={'profile__inputLabel'}>
+                    <span>Имя</span>
+                    <input className={'profile__formInput'} type={'text'} id={'name'} placeholder={'имя'}
+                           value={name} disabled name={'name'} required minLength={2} maxLength={30}
+                           onChange={handleChangeName}/>
 
-              </label>
-              <span className={'profile__errorInput profile__errorInput__name'}>Что-то пошло не так...</span>
-              <label htmlFor={'email'} className={'profile__inputLabel'}>
-                <span>E-mail</span>
-                <input className={'profile__formInput'} type={'email'} id={'email'} placeholder={'email'}
-                       value={email} name={'email'} required onChange={handleChangeEmail}
-                       disabled/>
+                  </label>
+                  <span className={'profile__errorInput profile__errorInput__name'}>Что-то пошло не так...</span>
+                  <label htmlFor={'email'} className={'profile__inputLabel'}>
+                    <span>E-mail</span>
+                    <input className={'profile__formInput'} type={'email'} id={'email'} placeholder={'email'}
+                           value={email} name={'email'} required onChange={handleChangeEmail}
+                           disabled/>
 
-              </label>
-              <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
+                  </label>
+                  <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
 
-              <button className={`profile__edit profile__edit_submit ${isEditOpen ? "" : "hidden"}`} type={'submit'}
-                      name={'submitButton'} disabled>Сохранить
-              </button>
+                  <button className={`profile__edit profile__edit_submit ${isEditOpen ? "" : "hidden"}`} type={'submit'}
+                          name={'submitButton'} disabled>Сохранить
+                  </button>
+                </div>
+
+              </form>
+              <div className={'profile__btnWrap'}>
+                <button className={'profile__edit'} type={'button'}
+                        onClick={isEditOpen ? handleCancelClick : handleEditClick}>{isEditOpen ? 'Отменить' : 'Редактировать'}</button>
+
+                <Link to={'/'} className={'profile__logOut'} onClick={props.onLogout}>Выйти из аккаунта</Link>
+
+              </div>
             </div>
-
-          </form>
-          <div className={'profile__btnWrap'}>
-            <button className={'profile__edit'} type={'button'}
-                    onClick={isEditOpen ? handleCancelClick : handleEditClick}>{isEditOpen ? 'Отменить' : 'Редактировать'}</button>
-
-            <Link to={'/'} className={'profile__logOut'} onClick={props.onLogout}>Выйти из аккаунта</Link>
-
-          </div>
+          </main>
         </div>
-      </main>
+      </div>
   )
 }
 

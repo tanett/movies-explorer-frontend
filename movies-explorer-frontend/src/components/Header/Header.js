@@ -34,10 +34,10 @@ function Header(props) {
             </Route>
             <Route exact path={'/movies' | '/saved-movies' | '/profile'}>
               <button className={`${mobMenu ? "header__mobMenu_open" : "header__mobMenu"}`}
-                      onClick={handleClicMobMenu}></button>
+                      onClick={handleClicMobMenu}/>
               <div className={`header__linkWrap ${mobMenu ? "header__linkWrap_mobileMenuOpen" : ""}`}>
                 <button className={`${mobMenu ? "header__closeMobMenuBtn" : "header__closeMobMenuBtn_hidden"}`}
-                        onClick={handleClose}></button>
+                        onClick={handleClose}/>
                 <nav className={`header__nav ${mobMenu ? "header__nav_mobileMenuOpen" : ""}`}>
                   <NavLink exact to='/' className={`${mobMenu ? "header__link" : "header__link_hidden"}`}
                            activeClassName='header__link_active' onClick={handleClose}>

@@ -7,9 +7,13 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import mainApi from "../../utils/MainApi";
 import SearchResult from "../SearchResult/SearchResult";
 import {CurrentUserContext} from "../../context/CurrentUserContext";
+import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
+import {LoggedInContext} from "../../context/LoggedInContext";
 
 function SavedMovies(props) {
   const user = React.useContext(CurrentUserContext);
+  const loggedIn = React.useContext(LoggedInContext);
   const [sMovie, setSmovie] = React.useState([]);
   const [searchRes, setSearchRes] = React.useState([]);
   const [searchCount, setSearchCount] = React.useState(0);
@@ -19,23 +23,25 @@ function SavedMovies(props) {
 
   React.useEffect(
       () => {
-        const userId=user.user._id;
+        const userId = props.user.user._id;
         mainApi.getSavedFilms().then(res => {
 
           if (res) {
 
-            const myFilms = res.filter(film=>film.owner === userId)
-           return myFilms
+            const myFilms = res.filter(film => film.owner === userId)
+            return myFilms
 
-          } else {props.tooltip("Что-то пошло не так")}
-        }).then(data=>{
+          } else {
+            props.tooltip("Что-то пошло не так")
+          }
+        }).then(data => {
           setSmovie(data);
           setSearchRes(data);
         })
             .catch(err => {
-          props.tooltip(err.message)
-          console.log(err)
-        });
+              props.tooltip(err.message)
+              console.log(err)
+            });
 
       }, []
   )
@@ -88,21 +94,26 @@ function SavedMovies(props) {
   );
 
   return (
-      <main className={'movies'}>
-        <div className={'movies__wrap'}>
-          <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={''} onShortFilm={onShortFilterClick}
-                      isShort={isShort}/>
-          {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
-          {searchCount > 0 && <SearchResult searchRes={searchRes} searchCount={searchCount}>
-            {searchRes.length > 0 &&
-            <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick} path = {'/saved-movies'}
-            />}
-          </SearchResult>}
-          {searchCount === 0 && <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick}
-          />}
+      <div className={'page'}>
+        <Header loggedIn={loggedIn}/>
+        <div className={'main'}>
+          <main className={'movies'}>
+            <div className={'movies__wrap'}>
+              <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={''} onShortFilm={onShortFilterClick}
+                          isShort={isShort}/>
+              {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
+              {searchCount > 0 && <SearchResult searchRes={searchRes} searchCount={searchCount}>
+                {searchRes.length > 0 &&
+                <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick} path={'/saved-movies'}
+                />}
+              </SearchResult>}
+              {searchCount === 0 && <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick}
+              />}
+            </div>
+          </main>
         </div>
-      </main>
-
+        <Footer/>
+      </div>
   )
 }
 

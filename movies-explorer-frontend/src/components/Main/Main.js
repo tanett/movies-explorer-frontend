@@ -25,8 +25,7 @@ function Main(props) {
             <AboutMe/>
             <Portfolio/>
           </Route>
-          <ProtectedRoute path={'/movies'} component={Movies} tooltip={props.tooltip}/>
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={props.tooltip}/>
+
         </Switch>
       </main>
   )

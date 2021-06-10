@@ -20,6 +20,8 @@ import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
 
 import Tooltip from "../Tooltip/Tooltip";
+import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 
 function App() {
@@ -108,12 +110,9 @@ function App() {
       const jwt = localStorage.getItem('jwt');
       auth.checkToken(jwt).then(
           res => {
-            if (res) {
               setLoggedIn(true);
               setCurrentUser(res);
-            } else {
-              setLoggedIn(false);
-            }
+            history.push('/movies')
           }
       ).catch(err => console.log(err))
 
@@ -154,20 +153,17 @@ function App() {
         <LoggedInContext.Provider value={loggedIn}>
           {isPageLoader && <Preloader/>}
           <Switch>
-            <Route exact path={['/', '/movies', '/saved-movies']}>
+            <Route exact path={'/'}>
               <div className="page">
                 <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
                 <Main tooltip={showTooltip}/>
                 <Footer/>
               </div>
             </Route>
-            <Route path='/profile'>
-              <div className="page">
-                <Header checkToken={handleTokenCheck} loggedIn={loggedIn}/>
-                <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
-                                onLogout={handleLogout}/>
-              </div>
-            </Route>
+            <ProtectedRoute path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser}/>
+            <ProtectedRoute path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip} user={currentUser}/>
+            <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn} user={currentUser}
+                            onLogout={handleLogout}/>
             <Route path='/signin'>
               <Login onLogin={handleLogin}/>
             </Route>
