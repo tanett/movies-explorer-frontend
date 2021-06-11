@@ -17,6 +17,8 @@ function Profile(props) {
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [isPageLoader, setIsPageLoader] = React.useState(false);
   const [name, setName] = React.useState('');
+  const [errName, setErrName] = React.useState('');
+  const [errEmail, setErrEmail] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [equal, setEqual] = React.useState(true);
 
@@ -33,10 +35,11 @@ function Profile(props) {
   )
 
   //  ввод в форму
-  const formEl = document.querySelector('form');
-  const elements = Array.from(formEl.elements);
+
 
   const handleEditClick = () => {
+    const formEl = document.querySelector('form');
+    const elements = Array.from(formEl.elements);
     elements.slice(0, 2).forEach((el) => el.disabled = false);
 
     formEl.elements[0].focus();
@@ -45,15 +48,11 @@ function Profile(props) {
 
   }
   const handleCancelClick = () => {
-    elements.forEach((el) => {
-      el.disabled = true;
-      if (el.name === 'name' || el.name === 'email') {
-        hideError(el)
-      }
-    });
+
     setIsEditOpen(false);
     setName(user.user.name);
     setEmail(user.user.email);
+    setEqual(true);
   }
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -71,15 +70,24 @@ function Profile(props) {
     e.preventDefault();
     props.onEditSubmit(name, email);
     setIsEditOpen(false);
-
+    setEqual(true);
   }
 // валидация
   const hideError = (input) => {
-    formEl.querySelector(`.profile__errorInput__${input.name}`).classList.remove(`profile__errorInput_active`);
+
+    setErrEmail('');
+    setErrName('');
   }
+
   const showError = (input) => {
-    formEl.querySelector(`.profile__errorInput__${input.name}`).classList.add(`profile__errorInput_active`);
-    formEl.querySelector(`.profile__errorInput__${input.name}`).textContent = input.validationMessage || "Что-то пошло не так";
+
+    if(input.name === 'name') {
+      setErrName(input.validationMessage);
+    }
+    if(input.name==='email') {
+      setErrEmail(input.validationMessage);
+    }
+
   }
 
   const inputValidation = (input) => {
@@ -116,22 +124,22 @@ function Profile(props) {
                   <label htmlFor={'name'} className={'profile__inputLabel'}>
                     <span>Имя</span>
                     <input className={'profile__formInput'} type={'text'} id={'name'} placeholder={'имя'}
-                           value={name} disabled name={'name'} required minLength={2} maxLength={30}
+                           value={name} disabled={!isEditOpen}  name={'name'} required minLength={2} maxLength={30}
                            onChange={handleChangeName}/>
 
                   </label>
-                  <span className={'profile__errorInput profile__errorInput__name'}>Что-то пошло не так...</span>
+                  <span className={`profile__errorInput profile__errorInput__name ${errName? 'profile__errorInput_active':''}`}>{errName}.</span>
                   <label htmlFor={'email'} className={'profile__inputLabel'}>
                     <span>E-mail</span>
                     <input className={'profile__formInput'} type={'email'} id={'email'} placeholder={'email'}
                            value={email} name={'email'} required onChange={handleChangeEmail}
-                           disabled/>
+                           disabled={!isEditOpen}/>
 
                   </label>
-                  <span className={'profile__errorInput profile__errorInput__email '}>Что-то пошло не так...</span>
+                  <span className={`profile__errorInput profile__errorInput__email  ${errEmail? 'profile__errorInput_active':''}`}>Что-то пошло не так...</span>
 
                   <button className={`profile__edit profile__edit_submit ${isEditOpen ? "" : "hidden"}`} type={'submit'}
-                          name={'submitButton'} disabled>Сохранить
+                          name={'submitButton'} disabled={!isEditOpen || equal}>Сохранить
                   </button>
                 </div>
 
