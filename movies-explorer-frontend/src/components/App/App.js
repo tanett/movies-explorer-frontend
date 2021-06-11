@@ -42,17 +42,11 @@ function App() {
       () => {
         setIsPageLoader(true);
         handleTokenCheck();
-        mainApi.getUserInfo()
-            .then((data) => setCurrentUser(data))
-            .catch(err => {
-              showTooltip(err.message);
-              console.log(err)
-            });
+
         setTimeout(() => setIsPageLoader(false), 1500);
       }, [loggedIn]
   )
-  console.log(loggedIn);
-  console.log(currentUser);
+
 
   function handleRegister(name, email, password) {
     return auth.register(name, email, password)
@@ -62,7 +56,7 @@ function App() {
             setIsTooltipOpen(true);
             setTimeout(() => setIsTooltipOpen(false), 4000);
 
-            //  throw new Error('что-то не так пошло')
+
           }
           if (res.userNoPassword) {
             //setMessageToolTip('Вы успешно зарегистрировались!');
@@ -72,10 +66,8 @@ function App() {
             history.push('/signin')
           }
 
-          // setIsInfoTooltipOpen(true);
 
         }).catch(err => {
-          showTooltip(err.message);
           console.log(err)
         });
   }
@@ -85,24 +77,27 @@ function App() {
     return auth.authorize(login, password)
         .then(data => {
           if (!data.token) {
-            setInfoMessage(data.message)
-            setIsTooltipOpen(true);
-            setTimeout(() => setIsTooltipOpen(false), 4000);
+            showTooltip(data.message);
             setLoggedIn(false);
-            return data;
+            throw new Error(data.message)
           }
           setLoggedIn(true);
-          return data;
         })
-        .then(() => mainApi.getUserInfo()
-            .then((data) => {
-              setCurrentUser(data);
-            })
-            .then(() => history.push('/movies'))
-            .catch(err => {
-              showTooltip(err.message);
-              console.log(err)
-            }));
+        .then(() => history.push('/movies'))
+        // .then(() => mainApi.getUserInfo()
+        //     .then((data) => {
+        //       console.log(data);
+        //       if(!data || !data.user) {
+        //         showTooltip(data.message);
+        //       }
+        //       setCurrentUser(data);
+        //       localStorage.setItem('user', JSON.stringify(data));
+        //     })
+        //
+        //     .catch(err => {
+        //       console.log(err)
+        //     }))
+    .catch(err=>console.log(err));
 
   }
 
@@ -125,11 +120,9 @@ function App() {
             localStorage.setItem('user', JSON.stringify(res));
             setLoggedIn(true);
             setCurrentUser(res);
-
-
           }
       ).catch(err => {
-        showTooltip(err.message);
+
         console.log(err)
       })
 
@@ -180,10 +173,10 @@ function App() {
                 <Footer/>
               </div>
             </Route>
-            <ProtectedRoute path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser}/>
-            <ProtectedRoute path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip}
+            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser}/>
+            <ProtectedRoute exact path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip}
                             user={currentUser}/>
-            <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
+            <ProtectedRoute exact path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
                             user={currentUser}
                             onLogout={handleLogout}/>
             <Route path='/signin'>
@@ -192,8 +185,11 @@ function App() {
             <Route path='/signup'>
               <Register onRegister={handleRegister}/>
             </Route>
+            <Route path='/notFound'>
+              <NotFoundPage/>
+            </Route>
             <Route path='*'>
-              {loggedIn ? <NotFoundPage/> : <Redirect to="/signin"/>}
+              {(loggedIn || localStorage.getItem('jwt'))? <Redirect to={'/notFound'}/>:<Redirect to={'/signin'}/>}
             </Route>
           </Switch>
           <Tooltip message={infoMessage} isOpen={isTooltipOpen}/>

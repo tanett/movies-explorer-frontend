@@ -78,7 +78,7 @@ function Login(props) {
                 Пароль
               </label>
               <input className={'login__formInput'} type={'password'} id={'password'} name={'password'} required
-                     value={password} onChange={changePassword}/>
+                     value={password} onChange={changePassword} minLength={4}/>
               <span className={'login__errorInput'}>Что-то пошло не так...</span>
             </div>
             <div className={'login__btnWrap'}>
