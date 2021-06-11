@@ -44,31 +44,53 @@ function Movies(props) {
                   const myFilms = data.filter(film => film.owner === userId)
                   setSavedFilms(myFilms);
                 }
+            ).then(
+            ()=>{
+              const update = movies.map(film => {
+                const sf = savedFilms.find((movie) => movie.movieId === film.id);
+                console.log(sf);
+                return sf ? sf : film
+              });
+              setUpdateMovies([...update]);
+            })
+            .then(
+                ()=>{
+                  if (localStorage.getItem("searchRes")) {
+                    const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
+
+                    setSearchRes(prevSearch.searchRes);
+                    setSearchQuery(prevSearch.searchQuery);
+                    setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
+                    setIsShort(false);
+                    setShowedFilms([...prevSearch.searchRes]);
+                  }
+                }
             )
+
             .catch(err => {
               props.tooltip(err.message);
               console.log(err)
-            });
+            }).finally(()=> setIsPageLoader(false));
 
-
-        const update = movies.map(film => {
-          const sf = savedFilms.find((movie) => movie.movieId === film.id);
-          console.log(sf);
-          return sf ? sf : film
-        });
-        setUpdateMovies([...update]);
-
-
-        if (localStorage.getItem("searchRes")) {
-          const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
-
-          setSearchRes(prevSearch.searchRes);
-          setSearchQuery(prevSearch.searchQuery);
-          setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
-          setIsShort(false);
-          setShowedFilms([...prevSearch.searchRes]);
-        }
-        setIsPageLoader(false);
+        //
+        // const update = movies.map(film => {
+        //   const sf = savedFilms.find((movie) => movie.movieId === film.id);
+        //   console.log(sf);
+        //   return sf ? sf : film
+        // });
+        // setUpdateMovies([...update]);
+        //
+        //
+        // if (localStorage.getItem("searchRes")) {
+        //   const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
+        //
+        //   setSearchRes(prevSearch.searchRes);
+        //   setSearchQuery(prevSearch.searchQuery);
+        //   setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
+        //   setIsShort(false);
+        //   setShowedFilms([...prevSearch.searchRes]);
+        // }
+        // setIsPageLoader(false);
       }, []
   );
 

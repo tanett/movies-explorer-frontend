@@ -84,19 +84,7 @@ function App() {
           setLoggedIn(true);
         })
         .then(() => history.push('/movies'))
-        // .then(() => mainApi.getUserInfo()
-        //     .then((data) => {
-        //       console.log(data);
-        //       if(!data || !data.user) {
-        //         showTooltip(data.message);
-        //       }
-        //       setCurrentUser(data);
-        //       localStorage.setItem('user', JSON.stringify(data));
-        //     })
-        //
-        //     .catch(err => {
-        //       console.log(err)
-        //     }))
+
     .catch(err=>console.log(err));
 
   }

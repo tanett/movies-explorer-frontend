@@ -24,7 +24,7 @@ function Login(props) {
   const handleSubmitForm = (e) => {
     e.preventDefault();
     props.onLogin(email, password);
-    clearForm()
+
   }
 
   const clearForm = () => {
@@ -55,7 +55,11 @@ function Login(props) {
       form.elements['submitButton'].disabled = true;
     }
   }
-
+React.useEffect(
+    ()=> {
+      clearForm()
+    }, []
+)
 
   return (
       <main className={'login'}>
