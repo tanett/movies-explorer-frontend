@@ -19,7 +19,7 @@ function SavedMovies(props) {
   const [searchCount, setSearchCount] = React.useState(0);
   const [isShort, setIsShort] = useState(false);
   const [filteredSearch, setFilteredSearch] = useState([]);
-  const [showedFilms, setShowedFilms] = React.useState([...sMovie]);
+  const [showedFilms, setShowedFilms] = React.useState([]);
 
   React.useEffect(
       () => {
@@ -36,6 +36,7 @@ function SavedMovies(props) {
         }).then(data => {
           setSmovie(data);
           setSearchRes(data);
+          setShowedFilms(data);
         })
             .catch(err => {
               props.tooltip(err.message)
@@ -46,11 +47,16 @@ function SavedMovies(props) {
   )
 
   const handleDeleteClick = (movie) => {
-    mainApi.deleteFilm(movie._id).then(() => {
-      setSmovie(sMovie.filter((film) => film.movieId !== movie.movieId));
+    debugger;
+    mainApi.deleteFilm(movie._id)
+      .then((res) => {
+      const newSF=sMovie.filter((film) => film._id !== movie._id);
+      setShowedFilms(newSF);
+      setSmovie(newSF);
+        props.tooltip(res.message);
 
     })
-        .catch(err => {
+       .catch(err => {
           props.tooltip("Что-то пошло не так");
           console.log(err)
         })
