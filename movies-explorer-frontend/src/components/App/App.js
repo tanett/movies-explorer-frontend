@@ -43,12 +43,12 @@ function App() {
         setIsPageLoader(true);
         handleTokenCheck();
         mainApi.getUserInfo()
-            .then((data)=>setCurrentUser(data))
+            .then((data) => setCurrentUser(data))
             .catch(err => {
               showTooltip(err.message);
               console.log(err)
             });
-        setTimeout(() => setIsPageLoader(false), 1000);
+        setTimeout(() => setIsPageLoader(false), 1500);
       }, [loggedIn]
   )
   console.log(loggedIn);
@@ -81,25 +81,28 @@ function App() {
   }
 
   function handleLogin(login, password) {
+
     return auth.authorize(login, password)
         .then(data => {
           if (!data.token) {
             setInfoMessage(data.message)
             setIsTooltipOpen(true);
             setTimeout(() => setIsTooltipOpen(false), 4000);
+            setLoggedIn(false);
             return data;
           }
+          setLoggedIn(true);
           return data;
         })
-        .then(() => mainApi.getUserInfo().then((data) => {
-          setCurrentUser(data);
-          setLoggedIn(true);
-          history.push('/movies');
-        }).catch(err => showTooltip(err.message)))
-        .catch(err => {
-          showTooltip(err.message);
-          console.log(err)
-        });
+        .then(() => mainApi.getUserInfo()
+            .then((data) => {
+              setCurrentUser(data);
+            })
+            .then(() => history.push('/movies'))
+            .catch(err => {
+              showTooltip(err.message);
+              console.log(err)
+            }));
 
   }
 
@@ -119,9 +122,10 @@ function App() {
       const jwt = localStorage.getItem('jwt');
       auth.checkToken(jwt).then(
           res => {
-              setLoggedIn(true);
-              setCurrentUser(res);
-              localStorage.setItem('user', JSON.stringify(res));
+            localStorage.setItem('user', JSON.stringify(res));
+            setLoggedIn(true);
+            setCurrentUser(res);
+
 
           }
       ).catch(err => {
@@ -177,8 +181,10 @@ function App() {
               </div>
             </Route>
             <ProtectedRoute path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser}/>
-            <ProtectedRoute path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip} user={currentUser}/>
-            <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn} user={currentUser}
+            <ProtectedRoute path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip}
+                            user={currentUser}/>
+            <ProtectedRoute path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
+                            user={currentUser}
                             onLogout={handleLogout}/>
             <Route path='/signin'>
               <Login onLogin={handleLogin}/>

@@ -31,7 +31,7 @@ function Movies(props) {
 
   React.useEffect(
       () => {
-        const userId = JSON.parse(localStorage.getItem('user')).user._id;
+
         setIsPageLoader(true);
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
@@ -40,6 +40,7 @@ function Movies(props) {
             })
             .then(
                 (data) => {
+                  const userId = JSON.parse(localStorage.getItem('user')).user._id;
                   const myFilms = data.filter(film => film.owner === userId)
                   setSavedFilms(myFilms);
                 }
