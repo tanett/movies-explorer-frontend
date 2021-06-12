@@ -25,11 +25,9 @@ function SavedMovies(props) {
       () => {
         const userId = JSON.parse(localStorage.getItem('user')).user._id;
         mainApi.getSavedFilms().then(res => {
-
           if (res) {
             const myFilms = res.filter(film => film.owner === userId)
             return myFilms
-
           } else {
             props.tooltip("Что-то пошло не так")
           }
@@ -42,21 +40,18 @@ function SavedMovies(props) {
               props.tooltip(err.message)
               console.log(err)
             });
-
       }, []
   )
 
   const handleDeleteClick = (movie) => {
-    debugger;
     mainApi.deleteFilm(movie._id)
-      .then((res) => {
-      const newSF=sMovie.filter((film) => film._id !== movie._id);
-      setShowedFilms(newSF);
-      setSmovie(newSF);
-        props.tooltip(res.message);
-
-    })
-       .catch(err => {
+        .then((res) => {
+          const newSF = sMovie.filter((film) => film._id !== movie._id);
+          setShowedFilms(newSF);
+          setSmovie(newSF);
+          props.tooltip(res.message);
+        })
+        .catch(err => {
           props.tooltip("Что-то пошло не так");
           console.log(err)
         })
@@ -64,22 +59,28 @@ function SavedMovies(props) {
 
   // поиск и фильтрация
   const handleSearchSubmit = (searchString) => {
-    console.log(sMovie);
+    setIsShort(false);
     let resRU = sMovie.filter((item) => item.nameRU.toLowerCase()
         .includes(searchString.toLowerCase()));
-    setSearchRes([...resRU]);
-
+      let resEn = sMovie.filter((item) => {
+      if (item.nameEN !== null) {
+        return item.nameEN.toLowerCase()
+            .includes(searchString.toLowerCase())
+      }
+    });
+    let res = new Set([...resRU, ...resEn]);
+    setSearchRes([...res]);
     setSearchCount(searchCount + 1);
-
-    setShowedFilms([...resRU]);
+    setShowedFilms([...res]);
     checkFilter();
 
   };
 
   const checkFilter = () => {
     if (isShort) {
-      setFilteredSearch(searchRes.filter(film => film.duration <= 40));
-      setShowedFilms([...filteredSearch]);
+      const filter = searchRes.filter(film => film.duration <= 40);
+      setFilteredSearch([...filter]);
+      setShowedFilms([...filter]);
     } else {
       setShowedFilms([...searchRes]);
     }
@@ -92,9 +93,7 @@ function SavedMovies(props) {
   };
   React.useEffect(
       () => {
-
         checkFilter();
-
       }, [searchRes, isShort]
   );
 
@@ -107,7 +106,7 @@ function SavedMovies(props) {
               <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={''} onShortFilm={onShortFilterClick}
                           isShort={isShort}/>
               {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
-              {searchCount > 0 && <SearchResult searchRes={searchRes} searchCount={searchCount}>
+              {searchCount > 0 && <SearchResult searchRes={showedFilms} searchCount={searchCount}>
                 {searchRes.length > 0 &&
                 <MoviesCardList items={showedFilms} onDelMovieClick={handleDeleteClick} path={'/saved-movies'}
                 />}

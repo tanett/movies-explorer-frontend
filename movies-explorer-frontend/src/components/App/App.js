@@ -83,6 +83,7 @@ function App() {
           }
           setLoggedIn(true);
         })
+
         .then(() => history.push('/movies'))
 
     .catch(err=>console.log(err));
@@ -161,7 +162,7 @@ function App() {
                 <Footer/>
               </div>
             </Route>
-            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser}/>
+            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser} checkToken={handleTokenCheck}/>
             <ProtectedRoute exact path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip}
                             user={currentUser}/>
             <ProtectedRoute exact path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}

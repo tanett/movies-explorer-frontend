@@ -1,11 +1,8 @@
 import React, {useState} from "react";
-
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
-
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi";
-
 import SearchResult from "../SearchResult/SearchResult";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
@@ -16,6 +13,7 @@ import {LoggedInContext} from "../../context/LoggedInContext";
 
 
 function Movies(props) {
+
   const user = React.useContext(CurrentUserContext);
   const loggedIn = React.useContext(LoggedInContext);
   const [movies, setMovies] = useState([]);
@@ -31,21 +29,21 @@ function Movies(props) {
 
   React.useEffect(
       () => {
-
         setIsPageLoader(true);
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
               setMovies(data[0]);
+              setSavedFilms(data[1]);
               return data[1];
             })
             .then(
                 (data) => {
                   const userId = JSON.parse(localStorage.getItem('user')).user._id;
-                  const myFilms = data.filter(film => film.owner === userId)
+                  const myFilms = savedFilms.filter(film => film.owner === userId)
                   setSavedFilms(myFilms);
                 }
             ).then(
-            ()=>{
+            () => {
               const update = movies.map(film => {
                 const sf = savedFilms.find((movie) => movie.movieId === film.id);
                 console.log(sf);
@@ -54,7 +52,7 @@ function Movies(props) {
               setUpdateMovies([...update]);
             })
             .then(
-                ()=>{
+                () => {
                   if (localStorage.getItem("searchRes")) {
                     const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
 
@@ -66,31 +64,10 @@ function Movies(props) {
                   }
                 }
             )
-
             .catch(err => {
               props.tooltip(err.message);
               console.log(err)
-            }).finally(()=> setIsPageLoader(false));
-
-        //
-        // const update = movies.map(film => {
-        //   const sf = savedFilms.find((movie) => movie.movieId === film.id);
-        //   console.log(sf);
-        //   return sf ? sf : film
-        // });
-        // setUpdateMovies([...update]);
-        //
-        //
-        // if (localStorage.getItem("searchRes")) {
-        //   const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
-        //
-        //   setSearchRes(prevSearch.searchRes);
-        //   setSearchQuery(prevSearch.searchQuery);
-        //   setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
-        //   setIsShort(false);
-        //   setShowedFilms([...prevSearch.searchRes]);
-        // }
-        // setIsPageLoader(false);
+            }).finally(() => setIsPageLoader(false));
       }, []
   );
 
@@ -117,26 +94,23 @@ function Movies(props) {
               }
             });
             setSearchRes([...newSavM])
-          } else new Error("Invalid Response");
+          } else throw new Error(res);
         })
 
         .catch(err => {
-          props.tooltip(err.message);
+          props.tooltip(err || "Что-то пошло не так");
           console.log(err);
         })
         .finally(() => setIsPageLoader(false));
-
-
   };
+
   const handleDeleteSavedFilms = (item) => {
     setIsPageLoader(true);
     mainApi.deleteFilm(item._id)
         .then(() => {
           setSavedFilms(() => savedFilms.filter((film) => film._id !== item._id));
-
           const newMovies = movies.map((film) => {
             const sf = savedFilms.find((movie) => movie.movieId === film.id);
-
             return sf ? sf : film
           });
 
@@ -160,7 +134,7 @@ function Movies(props) {
 
 // поиск и фильтрация
   const handleSearchSubmit = (searchString) => {
-
+    setIsShort(false);
     let resRU = updateMovies.filter((item) => item.nameRU.toLowerCase()
         .includes(searchString.toLowerCase()));
     let resEn = updateMovies.filter((item) => {
@@ -183,8 +157,9 @@ function Movies(props) {
 
   const checkFilter = () => {
     if (isShort) {
-      setFilteredSearch(searchRes.filter(film => film.duration <= 40));
-      setShowedFilms([...filteredSearch]);
+      const filtered = searchRes.filter(film => film.duration <= 40)
+      setFilteredSearch([...filtered]);
+      setShowedFilms([...filtered]);
     } else {
       setShowedFilms([...searchRes]);
     }
@@ -193,24 +168,20 @@ function Movies(props) {
   const onShortFilterClick = () => {
     setIsShort(!isShort);
     checkFilter();
-
   };
+
   React.useEffect(
       () => {
-
         checkFilter();
         const update = movies.map(film => {
           const sf = savedFilms.find((movie) => movie.movieId === film.id);
-
           return sf ? sf : film
         });
         setUpdateMovies([...update]);
       }, [searchRes, isShort]
   );
 
-
   return (
-
       <div className={'page'}>
         <Header loggedIn={loggedIn}/>
         <main className={'main'}>
