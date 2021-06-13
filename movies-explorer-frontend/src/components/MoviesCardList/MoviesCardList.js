@@ -48,15 +48,15 @@ function MoviesCardList(props) {
     } else setCountShowedFilms(countShowedFilms + numbAddedFilms);
     console.log('i will show more films')
   }
-  const saveBtnClassName = (window.location.pathname === '/saved-movies') ? "moviesCard__Btn_delete" : "moviesCard__Btn_active";
+
 
   return (
       <>
         <section className={'moviesCardList'}>
           {props.items.slice(0, countShowedFilms).map((movie) => (
-                  <MoviesCard dataMovie={movie} key={movie.id || movie._id} saveBtnClassName={saveBtnClassName}
+                  <MoviesCard dataMovie={movie} key={movie.id || movie._id}
                               onDelClick={props.onDelMovieClick}
-                              onSaveClick={props.onSaveMovieClick} path={props.path}/>
+                              onSaveClick={props.onSaveMovieClick} path={props.path} isSaved = {movie.isSaved}/>
               )
           )}
         </section>

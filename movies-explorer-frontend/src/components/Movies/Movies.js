@@ -31,6 +31,7 @@ function Movies(props) {
       () => {
 
         setIsPageLoader(true);
+
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
               if(data[0] && data[1]) {
@@ -43,14 +44,15 @@ function Movies(props) {
 
                 const update = data[0].map(film => {
                   const sf = myFilms.find((movie) => movie.movieId === film.id);
-                  return sf ? sf : film;
+                  sf ? film.isSaved = true : film.isSaved=false;
+                  return film;
                 });
                 setUpdateMovies([...update]);
               } else throw new Error("Что-то пошле не так. Попробуйте обновить страницу")
             })
 
             .then(
-                () => {
+                () => {console.log(updateMovies);
                   if (localStorage.getItem("searchRes")) {
                     const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
 
@@ -71,28 +73,33 @@ function Movies(props) {
 
 // Сохранение и удаление
   const handleSaveClick = (movie) => {
+debugger;
     setIsPageLoader(true);
     mainApi.saveFilm(movie)
         .then(res => {
           if (res.owner) {
             setSavedFilms([...savedFilms, res]);
-            const newMovies = updateMovies.map((film) => {
-              if (film.id === res.movieId) {
-                return res
-              } else {
-                return film
-              }
-            });
-            setUpdateMovies([...newMovies]);
-            const newSavM = searchRes.map((film) => {
-              if (film.id === res.movieId) {
-                return res
-              } else {
-                return film
-              }
-            });
-            setSearchRes([...newSavM])
+            movie.isSaved = true;
+           const sfIndx= updateMovies.findIndex((film=>film.id===movie.id));
+           updateMovies[sfIndx].isSaved = true;
+            // const newMovies = updateMovies.map((film) => {
+            //   if (film.id === res.movieId) {
+            //     return res
+            //   } else {
+            //     return film
+            //   }
+            // });
+            // setUpdateMovies([...newMovies]);
+            // const newSavM = searchRes.map((film) => {
+            //   if (film.id === res.movieId) {
+            //     return res
+            //   } else {
+            //     return film
+            //   }
+            // });
+            // setSearchRes([...newSavM])
           } else throw new Error(res);
+          setUpdateMovies([...updateMovies])
         })
 
         .catch(err => {
@@ -104,24 +111,29 @@ function Movies(props) {
 
   const handleDeleteSavedFilms = (item) => {
     setIsPageLoader(true);
-    mainApi.deleteFilm(item._id)
+    const idFromSavedFilms = savedFilms.find((el)=>el.movieId === item.id)._id;
+    mainApi.deleteFilm(idFromSavedFilms)
         .then(() => {
-          setSavedFilms(() => savedFilms.filter((film) => film._id !== item._id));
-          const newMovies = movies.map((film) => {
-            const sf = savedFilms.find((movie) => movie.movieId === film.id);
-            return sf ? sf : film
-          });
+          setSavedFilms(() => savedFilms.filter((film) => film.movieId !== item.id));
+          const sfIndx= updateMovies.findIndex((film=>film.id===item.id ));
+          updateMovies[sfIndx].isSaved = false;
+          setUpdateMovies([...updateMovies]);
+          // const newMovies = movies.map((film) => {
+          //   const sf = savedFilms.find((movie) => movie.movieId === film.id);
+          //   return sf ? sf : film
+          // });
+          //
+          // setUpdateMovies([...newMovies]);
+          // const initItem = movies.find(film => film.id === item.movieId);
+          // const newSavM = searchRes.map((film) => {
+          //   if (film.movieId === initItem.id) {
+          //     return initItem
+          //   } else {
+          //     return film
+          //   }
+          // });
+          // setSearchRes([...newSavM])
 
-          setUpdateMovies([...newMovies]);
-          const initItem = movies.find(film => film.id === item.movieId);
-          const newSavM = searchRes.map((film) => {
-            if (film.movieId === initItem.id) {
-              return initItem
-            } else {
-              return film
-            }
-          });
-          setSearchRes([...newSavM])
         })
         .catch(err => {
           props.tooltip(err.message)
