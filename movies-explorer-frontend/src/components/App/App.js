@@ -81,13 +81,13 @@ function App() {
             setLoggedIn(false);
             throw new Error(data.message)
           }
-          setLoggedIn(true);
+          //setLoggedIn(true);
         })
-
+      .then(()=>setLoggedIn(true))
         .then(() => history.push('/movies'))
 
     .catch(err=>console.log(err));
-
+console.log(localStorage('jwt'))
   }
 
   const handleLogout = () => {
@@ -124,7 +124,8 @@ function App() {
         .then((res) => {
           if (res) {
             setCurrentUser(res);
-
+            localStorage.removeItem('user');
+            localStorage.setItem('user', JSON.stringify(res));
             setInfoMessage("У вас все получилось")
             setIsTooltipOpen(true);
             setTimeout(() => setIsTooltipOpen(false), 4000);

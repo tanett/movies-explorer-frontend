@@ -1,7 +1,7 @@
 .tooltip {
     width: 50%;
     position: fixed;
-    bottom: 25%;
+    bottom: 30%;
     right: 50%;
     transform: translateX(50%);
     border-radius: 10px;

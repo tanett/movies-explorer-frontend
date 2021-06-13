@@ -33,18 +33,20 @@ function Movies(props) {
         setIsPageLoader(true);
         Promise.all([moviesApi.getFilms(), mainApi.getSavedFilms()])
             .then(data => {
-              setMovies(data[0]);
-              setSavedFilms(data[1]);
+              if(data[0] && data[1]) {
+                setMovies(data[0]);
+                setSavedFilms(data[1]);
 
-              const userId = JSON.parse(localStorage.getItem('user')).user._id;
-              const myFilms = data[1].filter(film => film.owner === userId)
-              setSavedFilms(myFilms);
+                const userId = JSON.parse(localStorage.getItem("user")).user._id;
+                const myFilms = data[1].filter(film => film.owner === userId);
+                setSavedFilms(myFilms);
 
-              const update = data[0].map(film => {
-                const sf = myFilms.find((movie) => movie.movieId === film.id);
-                return sf ? sf : film
-              });
-              setUpdateMovies([...update]);
+                const update = data[0].map(film => {
+                  const sf = myFilms.find((movie) => movie.movieId === film.id);
+                  return sf ? sf : film;
+                });
+                setUpdateMovies([...update]);
+              } else throw new Error("Что-то пошле не так. Попробуйте обновить страницу")
             })
 
             .then(
