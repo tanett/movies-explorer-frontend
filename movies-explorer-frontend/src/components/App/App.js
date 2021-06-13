@@ -42,7 +42,6 @@ function App() {
       () => {
         setIsPageLoader(true);
         handleTokenCheck();
-
         setTimeout(() => setIsPageLoader(false), 1500);
       }, [loggedIn]
   )
@@ -111,11 +110,9 @@ function App() {
             setCurrentUser(res);
           }
       ).catch(err => {
-
         console.log(err)
       })
-
-    }
+    } else {setLoggedIn(false)}
   }
 
   function handleEditSubmit(name, email) {
@@ -162,7 +159,7 @@ function App() {
                 <Footer/>
               </div>
             </Route>
-            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser} checkToken={handleTokenCheck}/>
+            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser} checkToken={handleTokenCheck} />
             <ProtectedRoute exact path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip}
                             user={currentUser}/>
             <ProtectedRoute exact path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}

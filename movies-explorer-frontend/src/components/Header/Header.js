@@ -1,5 +1,5 @@
 import {
-  Switch, Route, Link, NavLink
+   Link, NavLink
 } from "react-router-dom";
 
 import React from "react";

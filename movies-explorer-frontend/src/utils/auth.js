@@ -44,7 +44,6 @@ export const authorize = (email, password) => {
             return res
           }
       )
-
 }
 
 export const checkToken = (token) => {
