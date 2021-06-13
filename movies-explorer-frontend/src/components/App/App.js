@@ -80,7 +80,7 @@ function App() {
             setLoggedIn(false);
             throw new Error(data.message)
           }
-          //setLoggedIn(true);
+
         })
       .then(()=>setLoggedIn(true))
         .then(() => history.push('/movies'))

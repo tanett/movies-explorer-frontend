@@ -67,10 +67,13 @@ function Profile(props) {
     changeButtonState(e.target.closest('form'))
   }
   const handleSubmit = (e) => {
+
     e.preventDefault();
+    Array.from(e.target.elements).forEach(el=>el.disabled=true);
     props.onEditSubmit(name, email);
     setIsEditOpen(false);
     setEqual(true);
+
   }
 // валидация
   const hideError = (input) => {
@@ -107,7 +110,7 @@ function Profile(props) {
     }
   }
 
-  console.log(name);
+
   return (
       <div className={'page'}>
         <Header loggedIn={loggedIn}/>
