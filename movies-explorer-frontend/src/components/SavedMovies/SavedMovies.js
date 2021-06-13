@@ -24,6 +24,7 @@ function SavedMovies(props) {
   React.useEffect(
       () => {
         const userId = JSON.parse(localStorage.getItem('user')).user._id;
+
         mainApi.getSavedFilms().then(res => {
           if (res) {
             const myFilms = res.filter(film => film.owner === userId)

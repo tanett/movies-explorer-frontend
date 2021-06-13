@@ -37,16 +37,16 @@ function Movies(props) {
                 setMovies(data[0]);
                 setSavedFilms(data[1]);
 
-                const userId = JSON.parse(localStorage.getItem('user')).user._id;
-                const myFilms = data[1].filter(film => film.owner === userId)
+                const userId = JSON.parse(localStorage.getItem("user")).user._id;
+                const myFilms = data[1].filter(film => film.owner === userId);
                 setSavedFilms(myFilms);
 
                 const update = data[0].map(film => {
                   const sf = myFilms.find((movie) => movie.movieId === film.id);
-                  return sf ? sf : film
+                  return sf ? sf : film;
                 });
                 setUpdateMovies([...update]);
-              } else {throw new Error("Что-то пошло не так, обновите страницу")}
+              } else throw new Error("Что-то пошле не так. Попробуйте обновить страницу")
             })
 
             .then(
@@ -172,13 +172,11 @@ function Movies(props) {
   React.useEffect(
       () => {
         checkFilter();
-        if(savedFilms.length>0){
-
         const update = movies.map(film => {
           const sf = savedFilms.find((movie) => movie.movieId === film.id);
           return sf ? sf : film
         });
-        setUpdateMovies([...update]);}
+        setUpdateMovies([...update]);
       }, [searchRes, isShort]
   );
 
