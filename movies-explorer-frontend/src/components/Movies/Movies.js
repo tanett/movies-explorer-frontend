@@ -48,15 +48,19 @@ function Movies(props) {
                   return film;
                 });
                 setUpdateMovies([...update]);
+                return data;
               } else throw new Error("Что-то пошле не так. Попробуйте обновить страницу")
             })
 
             .then(
-                () => {console.log(updateMovies);
+                (data) => {
                   if (localStorage.getItem("searchRes")) {
                     const prevSearch = JSON.parse(localStorage.getItem("searchRes"));
 
-                    setSearchRes(prevSearch.searchRes);
+                    setSearchRes(prevSearch.searchRes.map(item=>{
+                      const upd = data[0].find((movie) => movie.id === item.id);
+                     return item.id === upd.id? upd:item
+                    } ));
                     setSearchQuery(prevSearch.searchQuery);
                     setFilteredSearch(prevSearch.searchRes.filter(film => film.duration <= 40));
                     setIsShort(false);
@@ -68,6 +72,7 @@ function Movies(props) {
               props.tooltip(err.message);
               console.log(err)
             }).finally(() => setIsPageLoader(false));
+        console.log(updateMovies);
       }, []
   );
 
@@ -81,15 +86,19 @@ debugger;
             setSavedFilms([...savedFilms, res]);
             movie.isSaved = true;
            const sfIndx= updateMovies.findIndex((film=>film.id===movie.id));
+           console.log(sfIndx);
+            console.log(updateMovies[sfIndx]);
            updateMovies[sfIndx].isSaved = true;
-            // const newMovies = updateMovies.map((film) => {
+            console.log(updateMovies);
+            searchRes[searchRes.findIndex((film=>film.id===movie.id))].isSaved = true;
+                // const newMovies = updateMovies.map((film) => {
             //   if (film.id === res.movieId) {
             //     return res
             //   } else {
             //     return film
             //   }
             // });
-            // setUpdateMovies([...newMovies]);
+            setUpdateMovies([...updateMovies]);
             // const newSavM = searchRes.map((film) => {
             //   if (film.id === res.movieId) {
             //     return res
@@ -97,9 +106,11 @@ debugger;
             //     return film
             //   }
             // });
-            // setSearchRes([...newSavM])
+            setSearchRes([...searchRes]);
+            showedFilms [showedFilms.findIndex(film=>film.id===movie.id)].isSaved = true;
+            setShowedFilms(...showedFilms);
           } else throw new Error(res);
-          setUpdateMovies([...updateMovies])
+
         })
 
         .catch(err => {
@@ -107,6 +118,7 @@ debugger;
           console.log(err);
         })
         .finally(() => setIsPageLoader(false));
+    console.log(updateMovies);
   };
 
   const handleDeleteSavedFilms = (item) => {
@@ -118,6 +130,7 @@ debugger;
           const sfIndx= updateMovies.findIndex((film=>film.id===item.id ));
           updateMovies[sfIndx].isSaved = false;
           setUpdateMovies([...updateMovies]);
+
           // const newMovies = movies.map((film) => {
           //   const sf = savedFilms.find((movie) => movie.movieId === film.id);
           //   return sf ? sf : film
@@ -184,11 +197,11 @@ debugger;
   React.useEffect(
       () => {
         checkFilter();
-        const update = movies.map(film => {
-          const sf = savedFilms.find((movie) => movie.movieId === film.id);
-          return sf ? sf : film
-        });
-        setUpdateMovies([...update]);
+        // const update = movies.map(film => {
+        //   const sf = savedFilms.find((movie) => movie.movieId === film.id);
+        //   return sf ? sf : film
+        // });
+        setUpdateMovies([...updateMovies]);
       }, [searchRes, isShort]
   );
 

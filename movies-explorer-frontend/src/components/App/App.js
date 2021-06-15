@@ -85,7 +85,10 @@ function App() {
       .then(()=>setLoggedIn(true))
         .then(() => history.push('/movies'))
 
-    .catch(err=>console.log(err));
+    .catch(err=> {
+      showTooltip(err.message);
+      console.log(err)
+    });
 console.log(localStorage('jwt'))
   }
 
@@ -110,6 +113,7 @@ console.log(localStorage('jwt'))
             setCurrentUser(res);
           }
       ).catch(err => {
+        showTooltip(err.message);
         console.log(err)
       })
     } else {setLoggedIn(false)}
