@@ -1,5 +1,5 @@
 import {
-  Link
+  Link, useHistory
 } from "react-router-dom";
 
 import React from "react";
@@ -9,6 +9,7 @@ import logo from '../../images/logo.svg';
 function Login(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
 
   const changeEmail = (e) => {
     setEmail(e.target.value);
@@ -23,8 +24,15 @@ function Login(props) {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    props.onLogin(email, password);
-
+    props.onLogin(email, password)
+        .then((data) => {
+          if (data.token) {
+            history.push('/movies')
+          } else {
+            throw new Error(data.message)
+          }
+        })
+        .catch(err => console.log(err))
 
   }
 
@@ -56,11 +64,11 @@ function Login(props) {
       form.elements['submitButton'].disabled = true;
     }
   }
-React.useEffect(
-    ()=> {
-      clearForm()
-    }, []
-)
+  React.useEffect(
+      () => {
+        clearForm()
+      }, []
+  )
 
   return (
       <main className={'login'}>

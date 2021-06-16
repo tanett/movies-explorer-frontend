@@ -49,7 +49,7 @@ function Movies(props) {
                 });
                 setUpdateMovies([...update]);
                 return data;
-              } else throw new Error("Что-то пошле не так. Попробуйте обновить страницу")
+              } else throw new Error("Что-то пошлo не так. Попробуйте обновить страницу")
             })
 
             .then(
@@ -79,7 +79,6 @@ function Movies(props) {
 // Сохранение и удаление
   const handleSaveClick = (movie) => {
 
-    setIsPageLoader(true);
     mainApi.saveFilm(movie)
         .then(res => {
           if (res.owner) {
@@ -101,12 +100,12 @@ function Movies(props) {
           props.tooltip(err || "Что-то пошло не так");
           console.log(err);
         })
-        .finally(() => setIsPageLoader(false));
+
 
   };
 
   const handleDeleteSavedFilms = (item) => {
-    setIsPageLoader(true);
+
     const idFromSavedFilms = savedFilms.find((el)=>el.movieId === item.id)._id;
     mainApi.deleteFilm(idFromSavedFilms)
         .then(() => {
@@ -121,7 +120,7 @@ function Movies(props) {
           props.tooltip(err.message)
           console.log(err)
         })
-        .finally(() => setIsPageLoader(false));
+
   };
 
 // поиск и фильтрация

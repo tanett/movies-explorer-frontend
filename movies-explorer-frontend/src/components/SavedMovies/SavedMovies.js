@@ -10,6 +10,7 @@ import {CurrentUserContext} from "../../context/CurrentUserContext";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import {LoggedInContext} from "../../context/LoggedInContext";
+import Preloader from "../Preloader/Preloader";
 
 function SavedMovies(props) {
   const user = React.useContext(CurrentUserContext);
@@ -20,27 +21,28 @@ function SavedMovies(props) {
   const [isShort, setIsShort] = useState(false);
   const [filteredSearch, setFilteredSearch] = useState([]);
   const [showedFilms, setShowedFilms] = React.useState([]);
+  const [isPageLoader, setIsPageLoader] = React.useState(false);
 
   React.useEffect(
       () => {
         const userId = JSON.parse(localStorage.getItem('user')).user._id;
-
+        setIsPageLoader(true);
         mainApi.getSavedFilms().then(res => {
-          if (res.ok) {
-            const myFilms = res.filter(film => film.owner === userId)
+          if (res) {
+            const myFilms = res.filter(film => film.owner === userId);
+            setSmovie(myFilms);
+            setSearchRes(myFilms);
+            setShowedFilms(myFilms);
             return myFilms
           } else {
             props.tooltip("Что-то пошло не так")
           }
-        }).then(data => {
-          setSmovie(data);
-          setSearchRes(data);
-          setShowedFilms(data);
         })
+
             .catch(err => {
               props.tooltip(err.message)
               console.log(err)
-            });
+            }).finally(() => setIsPageLoader(false));;
       }, []
   )
 
@@ -79,7 +81,7 @@ function SavedMovies(props) {
 
   const checkFilter = () => {
     if (isShort) {
-      const filter = searchRes.filter(film => film.duration <= 40);
+      const filter =showedFilms.filter(film => film.duration <= 40);
       setFilteredSearch([...filter]);
       setShowedFilms([...filter]);
     } else {
@@ -106,6 +108,7 @@ function SavedMovies(props) {
             <div className={'movies__wrap'}>
               <SearchForm onSubmitSearch={handleSearchSubmit} searchQuery={''} onShortFilm={onShortFilterClick}
                           isShort={isShort}/>
+              {isPageLoader && <Preloader/>}
               {sMovie.length === 0 && <h2 className={'searchResult__title'}>Вы еще не добавили не одного фильма</h2>}
               {searchCount > 0 && <SearchResult searchRes={showedFilms} searchCount={searchCount}>
                 {searchRes.length > 0 &&

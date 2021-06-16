@@ -33,7 +33,7 @@ function App() {
 
   const [isPageLoader, setIsPageLoader] = React.useState(false);
 
-  const [loggedIn, setLoggedIn] = React.useState('');
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
   const [infoMessage, setInfoMessage] = React.useState('Все хорошо');
   const history = useHistory();
@@ -43,7 +43,7 @@ function App() {
         setIsPageLoader(true);
         handleTokenCheck();
         setTimeout(() => setIsPageLoader(false), 1500);
-      }, [loggedIn]
+      }, []
   )
 
 
@@ -79,16 +79,17 @@ function App() {
             showTooltip(data.message);
             setLoggedIn(false);
             throw new Error(data.message)
+          } else {
+
+            handleTokenCheck()
+            return data
           }
-
         })
-      .then(()=>setLoggedIn(true))
-        .then(() => history.push('/movies'))
 
-    .catch(err=> {
-      showTooltip(err.message);
-      console.log(err)
-    });
+        .catch(err => {
+          showTooltip(err.message);
+          console.log(err)
+        });
 
   }
 
@@ -112,11 +113,14 @@ function App() {
             setLoggedIn(true);
             setCurrentUser(res);
           }
-      ).catch(err => {
-        showTooltip(err.message);
-        console.log(err)
-      })
-    } else {setLoggedIn(false)}
+      )
+          .catch(err => {
+            showTooltip(err.message);
+            console.log(err)
+          })
+    } else {
+      setLoggedIn(false)
+    }
   }
 
   function handleEditSubmit(name, email) {
@@ -164,10 +168,12 @@ function App() {
                 <Footer/>
               </div>
             </Route>
-            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser} checkToken={handleTokenCheck} />
+            <ProtectedRoute exact path={'/movies'} component={Movies} tooltip={showTooltip} user={currentUser}
+                            checkToken={handleTokenCheck}/>
             <ProtectedRoute exact path="/saved-movies" component={SavedMovies} loggedIn={loggedIn} tooltip={showTooltip}
                             user={currentUser}/>
-            <ProtectedRoute exact path='/profile' component={Profile} onEditSubmit={handleEditSubmit} loggedIn={loggedIn}
+            <ProtectedRoute exact path='/profile' component={Profile} onEditSubmit={handleEditSubmit}
+                            loggedIn={loggedIn}
                             user={currentUser}
                             onLogout={handleLogout}/>
             <Route path='/signin'>
@@ -180,7 +186,7 @@ function App() {
               <NotFoundPage/>
             </Route>
             <Route path='*'>
-              {(loggedIn || localStorage.getItem('jwt'))? <Redirect to={'/notFound'}/>:<Redirect to={'/signin'}/>}
+              {(loggedIn || localStorage.getItem('jwt')) ? <Redirect to={'/notFound'}/> : <Redirect to={'/signin'}/>}
             </Route>
           </Switch>
           <Tooltip message={infoMessage} isOpen={isTooltipOpen}/>
