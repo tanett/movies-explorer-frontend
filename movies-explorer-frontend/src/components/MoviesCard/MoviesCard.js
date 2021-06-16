@@ -34,8 +34,9 @@ function MoviesCard(props) {
     setIsSave(!isSave);
   };
   const handleDeleteClick = () => {
-    props.onDelClick(props.dataMovie);
     setIsSave(!isSave);
+    props.onDelClick(props.dataMovie);
+
   };
 
   const timeHour = ~~(props.dataMovie.duration / 60);
