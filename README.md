@@ -5,7 +5,7 @@ films.shadrina.nomoredomains.icu
 ### домен для backend
 api.films.shadrina.nomoredomains.icu
 ###ip
-84.252.132.208
+130.193.35.60
 
 
 ## Доступные скрипты 
