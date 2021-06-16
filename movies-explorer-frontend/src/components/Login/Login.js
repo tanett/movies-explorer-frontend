@@ -25,6 +25,7 @@ function Login(props) {
     e.preventDefault();
     props.onLogin(email, password);
 
+
   }
 
   const clearForm = () => {

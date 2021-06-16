@@ -26,7 +26,7 @@ function SavedMovies(props) {
         const userId = JSON.parse(localStorage.getItem('user')).user._id;
 
         mainApi.getSavedFilms().then(res => {
-          if (res) {
+          if (res.ok) {
             const myFilms = res.filter(film => film.owner === userId)
             return myFilms
           } else {

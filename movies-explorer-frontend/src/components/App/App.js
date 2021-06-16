@@ -58,7 +58,7 @@ function App() {
 
           }
           if (res.userNoPassword) {
-            //setMessageToolTip('Вы успешно зарегистрировались!');
+
             setInfoMessage('Вы зарегестрировались');
             setIsTooltipOpen(true);
             setTimeout(() => setIsTooltipOpen(false), 4000);
@@ -89,7 +89,7 @@ function App() {
       showTooltip(err.message);
       console.log(err)
     });
-console.log(localStorage('jwt'))
+
   }
 
   const handleLogout = () => {

@@ -86,10 +86,9 @@ function Movies(props) {
             setSavedFilms([...savedFilms, res]);
             movie.isSaved = true;
            const sfIndx= updateMovies.findIndex((film=>film.id===movie.id));
-           console.log(sfIndx);
-            console.log(updateMovies[sfIndx]);
+
            updateMovies[sfIndx].isSaved = true;
-            console.log(updateMovies);
+
             searchRes[searchRes.findIndex((film=>film.id===movie.id))].isSaved = true;
             setUpdateMovies([...updateMovies]);
             setSearchRes([...searchRes]);
@@ -103,7 +102,7 @@ function Movies(props) {
           console.log(err);
         })
         .finally(() => setIsPageLoader(false));
-    console.log(updateMovies);
+
   };
 
   const handleDeleteSavedFilms = (item) => {
@@ -167,10 +166,7 @@ function Movies(props) {
   React.useEffect(
       () => {
         checkFilter();
-        // const update = movies.map(film => {
-        //   const sf = savedFilms.find((movie) => movie.movieId === film.id);
-        //   return sf ? sf : film
-        // });
+
         setUpdateMovies([...updateMovies]);
       }, [searchRes, isShort]
   );
