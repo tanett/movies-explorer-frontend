@@ -43,7 +43,7 @@ function App() {
         setIsPageLoader(true);
         handleTokenCheck();
         setTimeout(() => setIsPageLoader(false), 1500);
-      }, []
+      }, [loggedIn]
   )
 
 
@@ -81,14 +81,14 @@ function App() {
             throw new Error(data.message)
           } else {
 
-            handleTokenCheck()
+            handleTokenCheck();
             return data
           }
         })
 
         .catch(err => {
           showTooltip(err.message);
-          console.log(err)
+          console.log(err);
         });
 
   }
