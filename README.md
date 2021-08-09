@@ -1,11 +1,11 @@
 # Фронтенд часть дипломного проекта
-
+на данный момент сайт меняет размещение
 ### домен для frontend
 films.shadrina.nomoredomains.icu
 ### домен для backend
 api.films.shadrina.nomoredomains.icu
 ### ip
-84.252.134.63
+
 
 
 ## Доступные скрипты 
